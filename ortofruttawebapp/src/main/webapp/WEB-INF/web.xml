@@ -5,13 +5,13 @@
 	version="3.1">
 
 	<servlet>
-		<servlet-name>nome</servlet-name>
-		<servlet-class>it.dstech.formazione.servlet.EsempioServlet</servlet-class>
+		<servlet-name>magazzino</servlet-name>
+		<servlet-class>it.dstech.ortofruttawebapp.GestioneMagazzino</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>nome</servlet-name>
-		<url-pattern>/pallino</url-pattern>
+		<servlet-name>magazzino</servlet-name>
+		<url-pattern>/ortofrutta</url-pattern>
 	</servlet-mapping>
 
 
