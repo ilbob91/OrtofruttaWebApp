@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<form action="AggiungiProdotto.jsp">
+  <input type="submit" value="Aggiungi un prodotto">
 </body>
 </html>
