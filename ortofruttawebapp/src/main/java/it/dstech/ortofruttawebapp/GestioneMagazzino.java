@@ -32,7 +32,12 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 	}
 	req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);	
 	
+	
+	
+	
 }
+
+
 
 	private static List<Prodotto> getGestioneMagazzino(Prodotto p) throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
