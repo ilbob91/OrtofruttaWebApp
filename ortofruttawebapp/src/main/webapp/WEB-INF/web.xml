@@ -14,6 +14,26 @@
 		<url-pattern>/ortofrutta</url-pattern>
 	</servlet-mapping>
 
+<servlet>
+		<servlet-name>aggiorna</servlet-name>
+		<servlet-class>it.dstech.ortofruttawebapp.AggiornaLista</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>aggiorna</servlet-name>
+		<url-pattern>/lista</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>vendi</servlet-name>
+		<servlet-class>it.dstech.ortofruttawebapp.VendiProdotti</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>vendi</servlet-name>
+		<url-pattern>/vendita</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>
 	

@@ -16,21 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.dstech.ortofruttawebapp.classi.Prodotto;
 
-public class GestioneMagazzino extends HttpServlet {
-
+public class AggiornaLista extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String nomeProdotto = req.getParameter("nomeProdotto");
-		int quantita = Integer.parseInt(req.getParameter("quantita"));
-		double prezzo = Double.parseDouble(req.getParameter("prezzo"));
-		String descrizione = req.getParameter("descrizione");
-		Prodotto p = new Prodotto(nomeProdotto, quantita, prezzo, descrizione);
+
+		String nomeProdotto1 = req.getParameter("nomeProdotto");
+		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
-			req.setAttribute("ListaProdotti", getGestioneMagazzino(p, connessione()));
+			req.setAttribute("ListaProdottiAggiornati", updateQuantita(connessione(), nomeProdotto1, quantita1));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);
+		req.getRequestDispatcher("ListaProdottiAggiornati.jsp").forward(req, resp);
 	}
 
 	private static Connection connessione() throws SQLException, ClassNotFoundException {
@@ -43,16 +40,8 @@ public class GestioneMagazzino extends HttpServlet {
 		return connessione;
 	}
 
-	private static List<Prodotto> getGestioneMagazzino(Prodotto p, Connection connessione)
+	private static List<Prodotto> updateQuantita(Connection connessione, String name, int q)
 			throws SQLException, ClassNotFoundException {
-
-		PreparedStatement statement = connessione.prepareStatement(
-				"insert into Prodotto (nomeProdotto, quantitaResidua, prezzo, descrizione) values (?,?,?,?);");
-		statement.setString(1, p.getNomeProdotto());
-		statement.setInt(2, p.getQuantitaResidua());
-		statement.setDouble(3, p.getPrezzo());
-		statement.setString(4, p.getDescrizione());
-		statement.execute();
 
 		PreparedStatement statement2 = connessione.prepareStatement("select * from Prodotto");
 
@@ -67,10 +56,25 @@ public class GestioneMagazzino extends HttpServlet {
 			Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
 			elenco.add(prodotto);
 		}
-		connessione.close();
-		return elenco;
 
+		for (int i = 0; i < elenco.size(); i++) {
+
+			if (elenco.get(i).getNomeProdotto().equals(name)) {
+
+				int somma = elenco.get(i).getQuantitaResidua() + q;
+				elenco.get(i).setQuantitaResidua(somma);
+
+				PreparedStatement statement = connessione
+						.prepareStatement("update Prodotto set quantitaResidua = ? where nomeProdotto = ?;");
+				statement.setString(2, name);
+				statement.setInt(1, somma);
+				statement.execute();
+
+				return elenco;
+			}
+
+		}
+		return null;
 	}
 
-	
 }
