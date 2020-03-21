@@ -45,15 +45,14 @@ public class GestioneMagazzino extends HttpServlet {
 
 	private static List<Prodotto> getGestioneMagazzino(Prodotto p, Connection connessione)
 			throws SQLException, ClassNotFoundException {
+		inserisciProdotti(p, connessione);
+		List<Prodotto> elenco = stampaProdotti(connessione);
+		connessione.close();
+		return elenco;
 
-		PreparedStatement statement = connessione.prepareStatement(
-				"insert into Prodotto (nomeProdotto, quantitaResidua, prezzo, descrizione) values (?,?,?,?);");
-		statement.setString(1, p.getNomeProdotto());
-		statement.setInt(2, p.getQuantitaResidua());
-		statement.setDouble(3, p.getPrezzo());
-		statement.setString(4, p.getDescrizione());
-		statement.execute();
+	}
 
+	private static List<Prodotto> stampaProdotti(Connection connessione) throws SQLException {
 		PreparedStatement statement2 = connessione.prepareStatement("select * from Prodotto");
 
 		ResultSet risultatoQuery = statement2.executeQuery();
@@ -67,9 +66,17 @@ public class GestioneMagazzino extends HttpServlet {
 			Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
 			elenco.add(prodotto);
 		}
-		connessione.close();
 		return elenco;
+	}
 
+	private static void inserisciProdotti(Prodotto p, Connection connessione) throws SQLException {
+		PreparedStatement statement = connessione.prepareStatement(
+				"insert into Prodotto (nomeProdotto, quantitaResidua, prezzo, descrizione) values (?,?,?,?);");
+		statement.setString(1, p.getNomeProdotto());
+		statement.setInt(2, p.getQuantitaResidua());
+		statement.setDouble(3, p.getPrezzo());
+		statement.setString(4, p.getDescrizione());
+		statement.execute();
 	}
 
 	

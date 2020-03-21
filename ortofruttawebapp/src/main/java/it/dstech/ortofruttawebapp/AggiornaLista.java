@@ -43,6 +43,28 @@ public class AggiornaLista extends HttpServlet {
 	private static List<Prodotto> updateQuantita(Connection connessione, String name, int q)
 			throws SQLException, ClassNotFoundException {
 
+		List<Prodotto> elenco = stampaProdotti(connessione);
+
+		for (int i = 0; i < elenco.size(); i++) {
+			if (elenco.get(i).getNomeProdotto().equals(name)) {
+				int somma = elenco.get(i).getQuantitaResidua() + q;
+				elenco.get(i).setQuantitaResidua(somma);
+				updateProdotti(connessione, name, somma);
+				return elenco;
+			}
+		}
+		return null;
+	}
+
+	private static void updateProdotti(Connection connessione, String name, int somma) throws SQLException {
+		PreparedStatement statement = connessione
+				.prepareStatement("update Prodotto set quantitaResidua = ? where nomeProdotto = ?;");
+		statement.setString(2, name);
+		statement.setInt(1, somma);
+		statement.execute();
+	}
+
+	private static List<Prodotto> stampaProdotti(Connection connessione) throws SQLException {
 		PreparedStatement statement2 = connessione.prepareStatement("select * from Prodotto");
 
 		ResultSet risultatoQuery = statement2.executeQuery();
@@ -56,25 +78,7 @@ public class AggiornaLista extends HttpServlet {
 			Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
 			elenco.add(prodotto);
 		}
-
-		for (int i = 0; i < elenco.size(); i++) {
-
-			if (elenco.get(i).getNomeProdotto().equals(name)) {
-
-				int somma = elenco.get(i).getQuantitaResidua() + q;
-				elenco.get(i).setQuantitaResidua(somma);
-
-				PreparedStatement statement = connessione
-						.prepareStatement("update Prodotto set quantitaResidua = ? where nomeProdotto = ?;");
-				statement.setString(2, name);
-				statement.setInt(1, somma);
-				statement.execute();
-
-				return elenco;
-			}
-
-		}
-		return null;
+		return elenco;
 	}
 
 }
