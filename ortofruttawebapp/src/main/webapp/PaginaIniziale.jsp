@@ -21,6 +21,10 @@
     <br>
 <form action="venduto">
   <input type="submit" style="width:200px; height:45px;" value="Stampa venduto">
-  </form>     
+  </form> 
+ <br>
+ <form action="RimuoviProdotto.jsp">
+  <input type="submit" style="width:200px; height:45px;" value="Rimuovi un prodotto">
+  </form>       
 </body>
 </html>

@@ -44,6 +44,16 @@
 		<url-pattern>/venduto</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>rimozione</servlet-name>
+		<servlet-class>it.dstech.ortofruttawebapp.RimuoviProdotto</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>rimozione</servlet-name>
+		<url-pattern>/rimuovi</url-pattern>
+	</servlet-mapping>
+	
 	
 
 </web-app>

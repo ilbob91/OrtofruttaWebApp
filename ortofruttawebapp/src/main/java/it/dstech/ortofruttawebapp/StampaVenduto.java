@@ -38,9 +38,9 @@ public class StampaVenduto extends HttpServlet{
 			int quantita = risultato.getInt(2);
 			ProdottoVenduto p = new ProdottoVenduto(nome, quantita);
 			elenco.add(p);
-			return elenco;
+			
 		}
-	return null;
+		return elenco;
 	}
 	private static ResultSet stampaListaVenduto(Connection connessione) throws SQLException{
 	
