@@ -14,6 +14,35 @@ public Prodotto(String nomeProdotto, int quantitaResidua, double prezzo, String 
 	this.prezzo = prezzo;
 	this.descrizione = descrizione;
 }
+
+
+@Override
+public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + ((nomeProdotto == null) ? 0 : nomeProdotto.hashCode());
+	return result;
+}
+
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Prodotto other = (Prodotto) obj;
+	if (nomeProdotto == null) {
+		if (other.nomeProdotto != null)
+			return false;
+	} else if (!nomeProdotto.equals(other.nomeProdotto))
+		return false;
+	return true;
+}
+
+
 @Override
 public String toString() {
 	return "Prodotto [nomeProdotto=" + nomeProdotto + ", quantitaResidua=" + quantitaResidua + ", prezzo=" + prezzo

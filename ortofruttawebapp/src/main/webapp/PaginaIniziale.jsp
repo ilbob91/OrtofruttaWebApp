@@ -13,6 +13,10 @@
   <br>
 <form action="AggiornaLista.jsp">
   <input type="submit" style="width:200px; height:45px;" value="Aggiorna un prodotto">
-  </form>  
+  </form>
+  <br>
+<form action="Vendita.jsp">
+  <input type="submit" style="width:200px; height:45px;" value="Vendi un prodotto">
+  </form>    
 </body>
 </html>
