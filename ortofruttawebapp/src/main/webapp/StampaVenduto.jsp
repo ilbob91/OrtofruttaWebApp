@@ -21,7 +21,7 @@
 	</td>  
   </tr>
 	<% } %>
-</table>
+</table><br><br>
 <form action="PaginaIniziale.jsp">
   <input type="submit" value="Torna Indietro">
 
