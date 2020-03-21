@@ -45,6 +45,38 @@ public class VendiProdotti extends HttpServlet {
 	private static List<ProdottoVenduto> updateQuantita(Connection connessione, String name, int q)
 			throws SQLException, ClassNotFoundException {
 
+		List<Prodotto> elenco = stampaProdotti(connessione);
+		for (int i = 0; i < elenco.size(); i++) {
+
+			if (elenco.get(i).getNomeProdotto().equals(name)) {
+				if (q < elenco.get(i).getQuantitaResidua()) {
+					int sottrazione = elenco.get(i).getQuantitaResidua() - q;
+					elenco.get(i).setQuantitaResidua(sottrazione);
+					updateTabellaProdotti(connessione, name, sottrazione);
+					inserimentoTabellaVendita(connessione, name, q);
+					ResultSet risultatoQuery2 = stampaListaVenduto(connessione);
+					List<ProdottoVenduto> listaProdottiVenduti = new ArrayList<>();
+					while (risultatoQuery2.next()) {
+						String nome = risultatoQuery2.getString("nomeProdotto");
+						int quantita = risultatoQuery2.getInt("quantitaVenduta");
+
+						ProdottoVenduto prodotto = new ProdottoVenduto(nome, quantita);
+						listaProdottiVenduti.add(prodotto);
+					}
+					connessione.close();
+					return listaProdottiVenduti;
+				}
+
+				else {
+					System.out.println("non hai abbastanza prodotti da vendere");
+				}
+			}
+
+		}
+		return null;
+	}
+
+	private static List<Prodotto> stampaProdotti(Connection connessione) throws SQLException {
 		PreparedStatement state = connessione.prepareStatement("select * from Prodotto");
 
 		ResultSet risultatoQuery = state.executeQuery();
@@ -57,51 +89,33 @@ public class VendiProdotti extends HttpServlet {
 
 			Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
 			elenco.add(prodotto);
-		}
-
-		for (int i = 0; i < elenco.size(); i++) {
-
-			if (elenco.get(i).getNomeProdotto().equals(name)) {
-				if (q < elenco.get(i).getQuantitaResidua()) {
-
-					int sottrazione = elenco.get(i).getQuantitaResidua() - q;
-					elenco.get(i).setQuantitaResidua(sottrazione);
-
-					PreparedStatement statement = connessione
-							.prepareStatement("update Prodotto set quantitaResidua = ? where nomeProdotto = ?;");
-					statement.setString(2, name);
-					statement.setInt(1, sottrazione);
-					statement.execute();
-
-					PreparedStatement statement1 = connessione.prepareStatement("insert into Vendita (nomeProdotto, quantitaVenduta) values (?,?);");
-					statement1.setString(1, name);
-					statement1.setInt(2, q);
-					statement1.execute();
-					
-				
-				
-				PreparedStatement statement2 = connessione.prepareStatement("select * from Vendita");
-
-				ResultSet risultatoQuery2 = statement2.executeQuery();
-				List<ProdottoVenduto> listaProdottiVenduti = new ArrayList<>();
-				while (risultatoQuery.next()) {
-					String nome = risultatoQuery2.getString("nomeProdotto");
-					int quantita = risultatoQuery2.getInt("quantitaVenduta");
-
-					ProdottoVenduto prodotto = new ProdottoVenduto(nome, quantita);
-					listaProdottiVenduti.add(prodotto);
-				}
-				connessione.close();
-				return listaProdottiVenduti;
-				}
-				
-				else {
-					System.out.println("non hai abbastanza prodotti da vendere");
-				}
-			}
 
 		}
-		return null;
+		return elenco;
+	}
+
+	private static ResultSet stampaListaVenduto(Connection connessione) throws SQLException {
+		PreparedStatement statement2 = connessione.prepareStatement("select * from Vendita");
+
+		ResultSet risultatoQuery2 = statement2.executeQuery();
+		return risultatoQuery2;
+	}
+
+	private static void inserimentoTabellaVendita(Connection connessione, String name, int q) throws SQLException {
+		PreparedStatement statement1 = connessione
+				.prepareStatement("insert into Vendita (nomeProdotto, quantitaVenduta) values (?,?);");
+		statement1.setString(1, name);
+		statement1.setInt(2, q);
+		statement1.execute();
+	}
+
+	private static void updateTabellaProdotti(Connection connessione, String name, int sottrazione)
+			throws SQLException {
+		PreparedStatement statement = connessione
+				.prepareStatement("update Prodotto set quantitaResidua = ? where nomeProdotto = ?;");
+		statement.setString(2, name);
+		statement.setInt(1, sottrazione);
+		statement.execute();
 	}
 
 }
