@@ -8,6 +8,6 @@
 </head>
 <body>
 <form action="AggiungiProdotto.jsp">
-  <input type="submit" value="Aggiungi un prodotto">
+  <input type="submit" style="width:120px; height:45px;" value="Aggiungi un prodotto">
 </body>
 </html>
