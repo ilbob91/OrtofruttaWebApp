@@ -26,7 +26,7 @@ public class VendiProdotti extends HttpServlet {
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
 			req.setAttribute("ListaProdottiVenduti",
-					updateQuantita(GestioneMagazzino.connessione(), nomeProdotto1, quantita1));
+					updateQuantita(AggiungiProdotto.connessione(), nomeProdotto1, quantita1));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

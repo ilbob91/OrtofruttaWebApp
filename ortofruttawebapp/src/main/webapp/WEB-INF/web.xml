@@ -6,7 +6,7 @@
 
 	<servlet>
 		<servlet-name>magazzino</servlet-name>
-		<servlet-class>it.dstech.ortofruttawebapp.GestioneMagazzino</servlet-class>
+		<servlet-class>it.dstech.ortofruttawebapp.AggiungiProdotto</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>

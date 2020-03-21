@@ -12,7 +12,7 @@
 <% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
 <table>
   <tr>
-    <th>Nome Prodotto</th>
+    <th>Lista Prodotti</th>
   </tr>	
   <% for(Prodotto nome : listaProdotti) { %>
   <tr>

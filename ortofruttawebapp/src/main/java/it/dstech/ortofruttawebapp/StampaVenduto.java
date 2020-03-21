@@ -22,7 +22,7 @@ public class StampaVenduto extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 		try {
-			req.setAttribute("StampaVenduto", stampaVenduto(GestioneMagazzino.connessione()));
+			req.setAttribute("StampaVenduto", stampaVenduto(AggiungiProdotto.connessione()));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

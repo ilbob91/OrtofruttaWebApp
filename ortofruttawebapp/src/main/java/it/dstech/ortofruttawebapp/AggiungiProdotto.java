@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.dstech.ortofruttawebapp.classi.Prodotto;
 
-public class GestioneMagazzino extends HttpServlet {
+public class AggiungiProdotto extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,7 +26,7 @@ public class GestioneMagazzino extends HttpServlet {
 		String descrizione = req.getParameter("descrizione");
 		Prodotto p = new Prodotto(nomeProdotto, quantita, prezzo, descrizione);
 		try {
-			req.setAttribute("ListaProdotti", getGestioneMagazzino(p, connessione()));
+			req.setAttribute("ListaProdotti", getProdotti(p, connessione()));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -43,7 +43,7 @@ public class GestioneMagazzino extends HttpServlet {
 		return connessione;
 	}
 
-	private static List<Prodotto> getGestioneMagazzino(Prodotto p, Connection connessione)
+	private static List<Prodotto> getProdotti(Prodotto p, Connection connessione)
 			throws SQLException, ClassNotFoundException {
 		inserisciProdotti(p, connessione);
 		List<Prodotto> elenco = stampaProdotti(connessione);

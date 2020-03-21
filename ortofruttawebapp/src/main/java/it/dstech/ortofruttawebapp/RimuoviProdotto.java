@@ -24,7 +24,7 @@ public class RimuoviProdotto extends HttpServlet{
 		String nome1 = req.getParameter("nomeProdotto");
 		try {
 			req.setAttribute("ListaProdottiAggiornati",
-					getListaProdottiDopoRimozione(GestioneMagazzino.connessione(), nome1));
+					getListaProdottiDopoRimozione(AggiungiProdotto.connessione(), nome1));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
