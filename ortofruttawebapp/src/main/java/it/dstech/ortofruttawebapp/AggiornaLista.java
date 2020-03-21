@@ -17,27 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import it.dstech.ortofruttawebapp.classi.Prodotto;
 
 public class AggiornaLista extends HttpServlet {
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String nomeProdotto1 = req.getParameter("nomeProdotto");
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
-			req.setAttribute("ListaProdottiAggiornati", updateQuantita(connessione(), nomeProdotto1, quantita1));
+			req.setAttribute("ListaProdottiAggiornati",
+					updateQuantita(GestioneMagazzino.connessione(), nomeProdotto1, quantita1));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		req.getRequestDispatcher("ListaProdottiAggiornati.jsp").forward(req, resp);
-	}
-
-	private static Connection connessione() throws SQLException, ClassNotFoundException {
-
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		String password = "bBrurP57M6";
-		String username = "rMIwGtutXd";
-		String url = "jdbc:mysql://remotemysql.com:3306/rMIwGtutXd?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
-		Connection connessione = DriverManager.getConnection(url, username, password);
-		return connessione;
 	}
 
 	private static List<Prodotto> updateQuantita(Connection connessione, String name, int q)

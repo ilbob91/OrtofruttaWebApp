@@ -33,7 +33,7 @@ public class GestioneMagazzino extends HttpServlet {
 		req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);
 	}
 
-	private static Connection connessione() throws SQLException, ClassNotFoundException {
+	public static Connection connessione() throws SQLException, ClassNotFoundException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		String password = "bBrurP57M6";
@@ -79,5 +79,4 @@ public class GestioneMagazzino extends HttpServlet {
 		statement.execute();
 	}
 
-	
 }

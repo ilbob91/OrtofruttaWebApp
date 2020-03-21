@@ -34,6 +34,17 @@
 		<url-pattern>/vendita</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>stampa</servlet-name>
+		<servlet-class>it.dstech.ortofruttawebapp.StampaVenduto</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>stampa</servlet-name>
+		<url-pattern>/venduto</url-pattern>
+	</servlet-mapping>
+	
+	
 
 </web-app>
 	

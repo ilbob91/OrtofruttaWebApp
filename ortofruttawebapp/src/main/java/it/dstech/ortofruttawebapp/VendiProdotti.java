@@ -25,21 +25,12 @@ public class VendiProdotti extends HttpServlet {
 		String nomeProdotto1 = req.getParameter("nomeProdotto");
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
-			req.setAttribute("ListaProdottiVenduti", updateQuantita(connessione(), nomeProdotto1, quantita1));
+			req.setAttribute("ListaProdottiVenduti",
+					updateQuantita(GestioneMagazzino.connessione(), nomeProdotto1, quantita1));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		req.getRequestDispatcher("ListaProdottiVenduti.jsp").forward(req, resp);
-	}
-
-	private static Connection connessione() throws SQLException, ClassNotFoundException {
-
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		String password = "bBrurP57M6";
-		String username = "rMIwGtutXd";
-		String url = "jdbc:mysql://remotemysql.com:3306/rMIwGtutXd?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
-		Connection connessione = DriverManager.getConnection(url, username, password);
-		return connessione;
 	}
 
 	private static List<ProdottoVenduto> updateQuantita(Connection connessione, String name, int q)

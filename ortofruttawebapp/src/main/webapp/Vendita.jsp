@@ -1,3 +1,5 @@
+<%@page import="it.dstech.ortofruttawebapp.classi.Prodotto"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -7,6 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <h1>Vendi prodotto</h1>
 <form action="vendita">
   <label for="nomeProdotto">Dimmi il nome del prodotto</label>

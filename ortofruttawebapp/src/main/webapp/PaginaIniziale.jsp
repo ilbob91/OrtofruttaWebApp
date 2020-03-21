@@ -17,6 +17,10 @@
   <br>
 <form action="Vendita.jsp">
   <input type="submit" style="width:200px; height:45px;" value="Vendi un prodotto">
-  </form>    
+  </form>   
+    <br>
+<form action="venduto">
+  <input type="submit" style="width:200px; height:45px;" value="Stampa venduto">
+  </form>     
 </body>
 </html>

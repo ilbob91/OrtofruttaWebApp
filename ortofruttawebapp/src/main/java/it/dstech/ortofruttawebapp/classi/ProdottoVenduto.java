@@ -23,6 +23,11 @@ public class ProdottoVenduto {
 	public void setQuantitaVenduta(int quantitaVenduta) {
 		this.quantitaVenduta = quantitaVenduta;
 	}
+
+	@Override
+	public String toString() {
+		return "Prodotti Venduti [nomeProdotto=" + nomeProdotto + ", quantitaVenduta=" + quantitaVenduta + "]";
+	}
 	
 	
 }
