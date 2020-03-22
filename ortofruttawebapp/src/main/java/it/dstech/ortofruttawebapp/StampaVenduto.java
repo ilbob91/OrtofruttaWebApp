@@ -22,11 +22,11 @@ public class StampaVenduto extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 		try {
-			req.setAttribute("StampaVenduto", GestioneDB.stampaVenduto(GestioneDB.connessione()));
+			req.setAttribute("ListaProdottiVenduti", GestioneDB.stampaVenduto(GestioneDB.connessione()));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		req.getRequestDispatcher("StampaVenduto.jsp").forward(req, resp);
+		req.getRequestDispatcher("ListaProdottiVenduti.jsp").forward(req, resp);
 	}
 	
 }
