@@ -24,12 +24,12 @@ public class AggiornaLista extends HttpServlet {
 		String nomeProdotto1 = req.getParameter("nomeProdotto");
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
-			req.setAttribute("ListaProdottiAggiornati",
+			req.setAttribute("ListaProdotti",
 					GestioneDB.updateQuantita(GestioneDB.connessione(), nomeProdotto1, quantita1));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		req.getRequestDispatcher("ListaProdottiAggiornati.jsp").forward(req, resp);
+		req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);
 	}
 
 
