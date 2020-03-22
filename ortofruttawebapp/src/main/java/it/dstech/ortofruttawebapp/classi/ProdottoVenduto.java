@@ -26,7 +26,7 @@ public class ProdottoVenduto {
 
 	@Override
 	public String toString() {
-		return "Prodotti Venduti [nomeProdotto=" + nomeProdotto + ", quantitaVenduta=" + quantitaVenduta + "]";
+		return "[nome = " + nomeProdotto + ", quantità = " + quantitaVenduta + "]";
 	}
 	
 	

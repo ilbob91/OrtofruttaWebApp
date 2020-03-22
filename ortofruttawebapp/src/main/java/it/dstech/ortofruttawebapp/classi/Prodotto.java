@@ -45,8 +45,8 @@ public boolean equals(Object obj) {
 
 @Override
 public String toString() {
-	return "Prodotto [nomeProdotto=" + nomeProdotto + ", quantitaResidua=" + quantitaResidua + ", prezzo=" + prezzo
-			+ ", descrizione=" + descrizione + "]";
+	return "[nome = " + nomeProdotto + ", quantità = " + quantitaResidua + ", prezzo = " + prezzo
+			+ ", descrizione = " + descrizione + "]";
 }
 public String getNomeProdotto() {
 	return nomeProdotto;
