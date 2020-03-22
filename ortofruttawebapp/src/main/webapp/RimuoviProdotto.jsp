@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Rimozione prodotti</title>
 </head>
 <body>
 <h1>Rimuovi Prodotto</h1>

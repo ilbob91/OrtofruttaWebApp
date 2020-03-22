@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Update prodotti</title>
 </head>
 <body>
 <h1>Aggiorna Lista</h1>
