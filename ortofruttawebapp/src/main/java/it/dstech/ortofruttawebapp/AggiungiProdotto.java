@@ -26,57 +26,13 @@ public class AggiungiProdotto extends HttpServlet {
 		String descrizione = req.getParameter("descrizione");
 		Prodotto p = new Prodotto(nomeProdotto, quantita, prezzo, descrizione);
 		try {
-			req.setAttribute("ListaProdotti", getProdotti(p, connessione()));
+			req.setAttribute("ListaProdotti", GestioneDB.getProdotti(p, GestioneDB.connessione()));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);
 	}
 
-	public static Connection connessione() throws SQLException, ClassNotFoundException {
 
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		String password = "bBrurP57M6";
-		String username = "rMIwGtutXd";
-		String url = "jdbc:mysql://remotemysql.com:3306/rMIwGtutXd?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
-		Connection connessione = DriverManager.getConnection(url, username, password);
-		return connessione;
-	}
-
-	private static List<Prodotto> getProdotti(Prodotto p, Connection connessione)
-			throws SQLException, ClassNotFoundException {
-		inserisciProdotti(p, connessione);
-		List<Prodotto> elenco = stampaProdotti(connessione);
-		connessione.close();
-		return elenco;
-
-	}
-
-	private static List<Prodotto> stampaProdotti(Connection connessione) throws SQLException {
-		PreparedStatement statement2 = connessione.prepareStatement("select * from Prodotto");
-
-		ResultSet risultatoQuery = statement2.executeQuery();
-		List<Prodotto> elenco = new ArrayList<>();
-		while (risultatoQuery.next()) {
-			String nome = risultatoQuery.getString("nomeProdotto");
-			int quantita = risultatoQuery.getInt("quantitaResidua");
-			double prezzo = risultatoQuery.getDouble("prezzo");
-			String descrizione = risultatoQuery.getString("descrizione");
-
-			Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
-			elenco.add(prodotto);
-		}
-		return elenco;
-	}
-
-	private static void inserisciProdotti(Prodotto p, Connection connessione) throws SQLException {
-		PreparedStatement statement = connessione.prepareStatement(
-				"insert into Prodotto (nomeProdotto, quantitaResidua, prezzo, descrizione) values (?,?,?,?);");
-		statement.setString(1, p.getNomeProdotto());
-		statement.setInt(2, p.getQuantitaResidua());
-		statement.setDouble(3, p.getPrezzo());
-		statement.setString(4, p.getDescrizione());
-		statement.execute();
-	}
-
+	
 }

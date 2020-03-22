@@ -25,52 +25,12 @@ public class AggiornaLista extends HttpServlet {
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
 			req.setAttribute("ListaProdottiAggiornati",
-					updateQuantita(AggiungiProdotto.connessione(), nomeProdotto1, quantita1));
+					GestioneDB.updateQuantita(GestioneDB.connessione(), nomeProdotto1, quantita1));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		req.getRequestDispatcher("ListaProdottiAggiornati.jsp").forward(req, resp);
 	}
 
-	private static List<Prodotto> updateQuantita(Connection connessione, String name, int q)
-			throws SQLException, ClassNotFoundException {
-
-		List<Prodotto> elenco = stampaProdotti(connessione);
-
-		for (int i = 0; i < elenco.size(); i++) {
-			if (elenco.get(i).getNomeProdotto().equals(name)) {
-				int somma = elenco.get(i).getQuantitaResidua() + q;
-				elenco.get(i).setQuantitaResidua(somma);
-				updateProdotti(connessione, name, somma);
-				return elenco;
-			}
-		}
-		return null;
-	}
-
-	private static void updateProdotti(Connection connessione, String name, int somma) throws SQLException {
-		PreparedStatement statement = connessione
-				.prepareStatement("update Prodotto set quantitaResidua = ? where nomeProdotto = ?;");
-		statement.setString(2, name);
-		statement.setInt(1, somma);
-		statement.execute();
-	}
-
-	private static List<Prodotto> stampaProdotti(Connection connessione) throws SQLException {
-		PreparedStatement statement2 = connessione.prepareStatement("select * from Prodotto");
-
-		ResultSet risultatoQuery = statement2.executeQuery();
-		List<Prodotto> elenco = new ArrayList<>();
-		while (risultatoQuery.next()) {
-			String nome = risultatoQuery.getString("nomeProdotto");
-			int quantita = risultatoQuery.getInt("quantitaResidua");
-			double prezzo = risultatoQuery.getDouble("prezzo");
-			String descrizione = risultatoQuery.getString("descrizione");
-
-			Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
-			elenco.add(prodotto);
-		}
-		return elenco;
-	}
 
 }
