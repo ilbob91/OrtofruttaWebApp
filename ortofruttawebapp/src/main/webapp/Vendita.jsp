@@ -5,7 +5,35 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
 <meta charset="ISO-8859-1">
+<title>Update prodotti</title>
+</head>
+<body>
+<% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
+<table>
+  
+    <h2>Lista Prodotti</h2>
+  <tr>
+   <th>Nome </th>
+   <th>Quantità </th>
+  </tr>
+  <% for(Prodotto nome : listaProdotti) { %>
+  
+  <tr>
+    <td>
+    <%=nome.getNomeProdotto()%>
+    </td>
+    <td>
+    <%=nome.getQuantitaResidua()%>
+    </td>     
+  </tr>
+	<% } %> 
+</table> <br><br>
 <title>Vendita Prodotti</title>
 </head>
 <body>

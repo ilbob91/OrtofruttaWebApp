@@ -5,6 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
@@ -21,20 +26,36 @@
 
 
 %>
+
 <% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
 <table>
+  
+    <h2>Lista Prodotti</h2>
   <tr>
-    <th>Lista Prodotti</th>
-  </tr>	
+   <th>Nome </th>
+   <th>Quantità </th>
+   <th>Prezzo </th>
+   <th>Descrizione </th>
+  </tr>
   <% for(Prodotto nome : listaProdotti) { %>
+  
   <tr>
     <td>
-				<%=nome%>
-	</td>  
+    <%=nome.getNomeProdotto()%>
+    </td>
+    <td>
+    <%=nome.getQuantitaResidua()%>
+    </td>  
+     <td>
+    <%=nome.getPrezzo()%>
+    </td>    
+     <td>
+    <%=nome.getDescrizione()%>
+    </td>       
   </tr>
-	<% } %>
-	<% } %> <br><br>
-</table>
+  <% } %> 
+	<% } %> 
+</table> <br><br>
 <form action="PaginaIniziale.jsp">
   <input type="submit" value="Torna Indietro">
 
