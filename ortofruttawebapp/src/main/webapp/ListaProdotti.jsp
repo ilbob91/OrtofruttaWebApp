@@ -7,7 +7,7 @@
 <head>
 <style>
 table, th, td {
-  border: 1px solid black;
+  border: 1px solid #FF6347;
 }
 </style>
 <meta charset="ISO-8859-1">
