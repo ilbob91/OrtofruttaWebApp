@@ -21,13 +21,30 @@ public class VendiProdotti extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		
+		req.setAttribute("messaggio", "hai tentato di accedere manualmente alla vendita prodotti");
+		req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String nomeProdotto1 = req.getParameter("nomeProdotto");
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
+				
+			if(GestioneDB.checkVendita(GestioneDB.stampaProdotti(GestioneDB.connessione()), quantita1)) {
+				
+			
 			req.setAttribute("ListaProdottiVenduti",
 					GestioneDB.updateQuantitaVendute(GestioneDB.connessione(), nomeProdotto1, quantita1));
-		} catch (ClassNotFoundException | SQLException e) {
+			}
+			
+			else {
+				req.setAttribute("messaggio", "Quantità disponibile insufficiente");
+				req.getRequestDispatcher("errore.jsp").forward(req, resp);
+				
+			}
+			} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		req.getRequestDispatcher("ListaProdottiVenduti.jsp").forward(req, resp);

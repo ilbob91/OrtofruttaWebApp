@@ -10,6 +10,18 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+<% String messaggio = (String) request.getAttribute("messaggio"); 
+	if (messaggio != null ){
+		%>
+		<h3>ERRORE</h3>
+		<%=messaggio%>
+					
+	<% }
+	else{
+
+
+%>
 <% List<ProdottoVenduto> listaProdottiVenduti = (List<ProdottoVenduto>)request.getAttribute("ListaProdottiVenduti"); %>
 <table>
   <tr>
@@ -21,6 +33,7 @@
 				<%=nome%>
 	</td>  
   </tr>
+	<% } %>
 	<% } %>
 </table>
 <form action="PaginaIniziale.jsp">

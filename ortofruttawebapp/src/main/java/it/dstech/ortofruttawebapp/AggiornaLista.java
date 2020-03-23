@@ -20,7 +20,14 @@ public class AggiornaLista extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		
+		req.setAttribute("messaggio", "hai tentato di accedere manualmente all'aggiornamento dei prodotti");
+		req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);
+		
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String nomeProdotto1 = req.getParameter("nomeProdotto");
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {

@@ -11,7 +11,7 @@
 <body>
 
 <h1>Vendi prodotto</h1>
-<form action="vendita">
+<form action="vendita" method="post">
   <label for="nomeProdotto">Dimmi il nome del prodotto</label>
   <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br>
   <label for="quantita">Inserisci la quantità</label>

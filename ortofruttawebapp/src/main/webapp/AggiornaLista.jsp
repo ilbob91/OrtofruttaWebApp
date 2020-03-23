@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Aggiorna Lista</h1>
-<form action="lista">
+<form action="lista" method="post">
   <label for="nomeProdotto">Dimmi il nome del prodotto</label>
   <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br>
   <label for="quantita">Inserisci la quantità</label>

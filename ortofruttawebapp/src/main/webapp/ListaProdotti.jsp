@@ -9,6 +9,18 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+<% String messaggio = (String) request.getAttribute("messaggio"); 
+	if (messaggio != null ){
+		%>
+		<h3>ERRORE</h3>
+		<%=messaggio%>
+					
+	<% }
+	else{
+
+
+%>
 <% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
 <table>
   <tr>
@@ -21,6 +33,7 @@
 	</td>  
   </tr>
 	<% } %>
+	<% } %> <br><br>
 </table>
 <form action="PaginaIniziale.jsp">
   <input type="submit" value="Torna Indietro">

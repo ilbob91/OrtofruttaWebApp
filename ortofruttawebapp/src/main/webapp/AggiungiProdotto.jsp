@@ -10,7 +10,7 @@
 <body>
 
 <h1>Aggiungi prodotto</h1>
-<form action="ortofrutta">
+<form action="ortofrutta" method="post">
   <label for="nomeProdotto">Dimmi il nome del prodotto</label>
   <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br>
   <label for="quantita">Inserisci la quantità</label>
