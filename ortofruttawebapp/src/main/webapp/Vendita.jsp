@@ -38,13 +38,13 @@ table, th, td {
 </head>
 <body>
 
-<h1>Vendi prodotto</h1>
+<h1>Simula vendita prodotto</h1>
 <form action="vendita" method="post">
   <label for="nomeProdotto">Dimmi il nome del prodotto</label>
   <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br>
   <label for="quantita">Inserisci la quantità</label>
   <input type="number" id="quantita" name="quantita"><br><br>
-  <input type="submit" style="width:120px; height:45px;" value="Vendi">
+  <input type="submit" style="width:120px; height:45px;" value="Simula Vendita">
   </form><br><br>
   
 <form action="PaginaIniziale.jsp">

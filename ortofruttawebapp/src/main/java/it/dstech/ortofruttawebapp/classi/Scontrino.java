@@ -8,7 +8,7 @@ public class Scontrino {
 	private int idUtente;
 	private String data; 
 	private double spesaTotale;
-	private List<Prodotto> listaProdotto;
+	private List<ProdottoVenduto> listaProdotto;
 	
 	
 	
@@ -39,10 +39,10 @@ public class Scontrino {
 	public void setSpesaTotale(double spesaTotale) {
 		this.spesaTotale = spesaTotale;
 	}
-	public List<Prodotto> getListaProdotto() {
+	public List<ProdottoVenduto> getListaProdotto() {
 		return listaProdotto;
 	}
-	public void setListaProdotto(List<Prodotto> listaProdotto) {
+	public void setListaProdotto(List<ProdottoVenduto> listaProdotto) {
 		this.listaProdotto = listaProdotto;
 	}
 
