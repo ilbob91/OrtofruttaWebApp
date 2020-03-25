@@ -2,7 +2,7 @@ package it.dstech.ortofruttawebapp.classi;
 
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 public class Utente {
 	
 	private String nome;
