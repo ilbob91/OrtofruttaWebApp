@@ -60,7 +60,7 @@ public class GestioneDB {
 				return false;
 
 			}
-			return true;
+		
 
 		}
 		return true;
