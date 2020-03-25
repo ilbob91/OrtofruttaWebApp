@@ -41,6 +41,14 @@ public class GestioneStampaListe extends HttpServlet {
 				e.printStackTrace();
 			}
 			req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);
+		} else if (azione.equalsIgnoreCase("Compra")) {
+			try {
+				req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
+				
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+			req.getRequestDispatcher("AcquistiCliente.jsp").forward(req, resp);
 		}
 	}
 }

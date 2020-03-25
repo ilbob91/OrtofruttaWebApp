@@ -10,6 +10,7 @@ import java.util.List;
 
 import it.dstech.ortofruttawebapp.classi.Prodotto;
 import it.dstech.ortofruttawebapp.classi.ProdottoVenduto;
+import it.dstech.ortofruttawebapp.classi.Utente;
 
 public class GestioneDB {
 	public static Connection connessione() throws SQLException, ClassNotFoundException {
@@ -229,6 +230,44 @@ public class GestioneDB {
 		statement.setString(2, name);
 		statement.setInt(1, somma);
 		statement.execute();
+	}
+    public static boolean isUtente(Connection connessione, String nome) throws SQLException{
+    	PreparedStatement s = connessione.prepareStatement("select * from Utente where nome = ?;");
+    	s.setString(1, nome);
+    	ResultSet risultato = s.executeQuery();
+    	while (risultato.next()) {
+	
+			return true;
+		}
+    	connessione.close();
+    	return false;
+    }
+    public static void checkUtente(Connection connessione, String nome, int eta)throws SQLException{
+			if (isUtente(connessione, nome)) {
+				updateUtente(connessione, nome, eta);
+			} else {
+				insertUtente(connessione, nome, eta);
+				
+			}
+		}
+    
+	private static void updateUtente(Connection connessione, String nome, int eta)throws SQLException {
+		PreparedStatement statement = connessione.prepareStatement(
+				"update Utente set eta =? where nome = ?;");
+		
+		statement.setInt(1, eta);
+		statement.setString(2, nome);
+		statement.execute();
+		
+	}
+
+	public static void insertUtente(Connection connessione, String nome, int eta)  throws SQLException{
+		PreparedStatement statement = connessione.prepareStatement(
+				"insert into Utente (nome, eta) values (?,?);");
+		statement.setString(1, nome);
+		statement.setInt(2, eta);
+		statement.execute();
+		
 	}
 
 	/*

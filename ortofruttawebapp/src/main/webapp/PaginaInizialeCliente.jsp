@@ -10,9 +10,9 @@
 
 <h2>Benvenuto</h2><br><br>
 <form action="cliente" method="post">
-  Name:<input type="text" name="user" /><br/>
-  Età:<input type="number" name="eta" ><br/>
-  <input type="submit" value="submit">
+  Name:<input type="text" id= "user" name="user" /><br/>
+  Età:<input type="number" id= "eta" name="eta" ><br/>
+  <input type="submit" value="Entra">
 </form><br><br>
   
 <form action="Home.jsp">

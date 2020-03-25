@@ -63,6 +63,15 @@
 		<url-pattern>/prodotti</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+        <servlet-name>cliente</servlet-name>
+        <servlet-class>it.dstech.ortofruttacliente.AggiungiCliente</servlet-class>
+    </servlet> 
+    <servlet-mapping>
+        <servlet-name>cliente</servlet-name>
+        <url-pattern>/cliente</url-pattern>
+    </servlet-mapping>
+	
 
 </web-app>
 	

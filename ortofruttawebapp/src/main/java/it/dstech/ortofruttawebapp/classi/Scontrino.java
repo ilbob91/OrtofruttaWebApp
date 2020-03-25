@@ -5,27 +5,28 @@ import java.util.List;
  
 public class Scontrino {
 	
-	private int idUtente;
+	private String nome;
 	private String data; 
 	private double spesaTotale;
 	private List<ProdottoVenduto> listaProdotto;
 	
 	
 	
-	public Scontrino(int idUtente, String data, double spesaTotale) {
+	public Scontrino(String nome, String data, double spesaTotale) {
 		super();
-		this.idUtente = idUtente;
+		this.nome = nome;
 		this.data = data;
 		this.spesaTotale = spesaTotale;
 		this.listaProdotto = new ArrayList<>();
 	}
 	
 	
-	public int getIdUtente() {
-		return idUtente;
+
+	public String getNome() {
+		return nome;
 	}
-	public void setIdUtente(int idUtente) {
-		this.idUtente = idUtente;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	public String getData() {
 		return data;
@@ -49,7 +50,7 @@ public class Scontrino {
 
 	@Override
 	public String toString() {
-		return "Scontrino [idUtente=" + idUtente + ", data=" + data + ", spesaTotale=" + spesaTotale
+		return "Scontrino [idUtente=" + nome + ", data=" + data + ", spesaTotale=" + spesaTotale
 				+ ", listaProdotto=" + listaProdotto + "]";
 	}
 	
