@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<h1>BENVENUTI NELL'ORTOFRUTTA DI MARTA E BOB</h1>
+<br><br>
 <h3>Sei il Venditore?</h3>
 <form action="PaginaInizialeVenditore.jsp">
   <input type="submit" style="width:120px; height:45px;" value="Venditore">

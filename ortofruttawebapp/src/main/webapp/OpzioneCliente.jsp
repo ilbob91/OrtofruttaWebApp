@@ -12,7 +12,7 @@
 <%String nome = (String) request.getAttribute("Utente"); %>
 
 <h2>Benvenuto/a, <%=nome%></h2>
-<form action="prodotti" method = "post">
+<form action="prodotti">
   <input type="submit" style="background-color:#FF5733; border-color:#FF5733; color:white ;width:200px; height:45px;" name= "azione" value="Compra">
   <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>
    <br><br>

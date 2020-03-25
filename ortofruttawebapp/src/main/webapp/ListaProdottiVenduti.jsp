@@ -51,7 +51,7 @@ table, th, td {
   <% } %> 
 	<% } %>
 </table>
-<form action="PaginaIniziale.jsp">
+<form action="PaginaInizialeVenditore.jsp">
   <input type="submit" value="Torna Indietro">
 
 </form>

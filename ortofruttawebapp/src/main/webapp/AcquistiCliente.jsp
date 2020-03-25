@@ -14,6 +14,17 @@ table, th, td {
 <title>Insert title here</title>
 </head>
 <body>
+<% String messaggio = (String) request.getAttribute("messaggio"); 
+	if (messaggio != null ){
+		%>
+	
+		<%=messaggio%>
+					
+	<% }
+	
+
+
+%>
 <% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
 <%String nome = (String) request.getAttribute("Utente"); %>
 <table>
@@ -41,11 +52,20 @@ table, th, td {
 	<% } %> 
 </table> <br><br>
 <h2>Cosa vuoi comprare , <%=request.getAttribute("Utente")%> ?</h2>
-<form action="" method = "post">
+<form action="acquisto" method = "post">
+  <label for="nomeProdotto">Dimmi il nome del prodotto</label>
+  <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br>
+  <label for="quantita">Inserisci la quantità che vuoi acquistare</label>
+  <input type="number" id="quantita" name="quantita"><br><br>
   <input type="submit" style="background-color:#FF5733; border-color:#FF5733; color:white ;width:200px; height:45px;" name= "azione" value="Aggiungi al carrello">
   <input type="submit" style="background-color:#FF5733; border-color:#FF5733; color:white ;width:200px; height:45px;" name= "azione" value="Paga">
   <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>
    <br><br>
+   </form>
+   <form action="tornaIndietro" method="post">
+  <input type="submit" value="Torna Indietro">
+  <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>  
 </form>
+
 </body>
 </html>

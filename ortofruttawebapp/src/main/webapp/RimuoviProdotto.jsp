@@ -38,13 +38,13 @@ table, th, td {
 </head>
 <body>
 <h1>Rimuovi Prodotto</h1>
-<form action="rimuovi">
+<form action="rimuovi" method= "post">
   <label for="nomeProdotto">Dimmi il nome del prodotto da rimuovere</label>
   <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br>
   <input type="submit" style="width:120px; height:45px;" value="Rimuovi">
   </form><br><br>
   
-<form action="PaginaIniziale.jsp">
+<form action="PaginaInizialeVenditore.jsp">
   <input type="submit" value="Torna Indietro">
 
 

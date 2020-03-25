@@ -71,7 +71,24 @@
         <servlet-name>cliente</servlet-name>
         <url-pattern>/cliente</url-pattern>
     </servlet-mapping>
-	
+    
+    <servlet>
+        <servlet-name>acquisto</servlet-name>
+        <servlet-class>it.dstech.ortofruttacliente.AcquistoCliente</servlet-class>
+    </servlet> 
+    <servlet-mapping>
+        <servlet-name>acquisto</servlet-name>
+        <url-pattern>/acquisto</url-pattern>
+    </servlet-mapping>
+    
+	  <servlet>
+        <servlet-name>indietro</servlet-name>
+        <servlet-class>it.dstech.ortofruttacliente.TornaIndietro</servlet-class>
+    </servlet> 
+    <servlet-mapping>
+        <servlet-name>indietro</servlet-name>
+        <url-pattern>/tornaIndietro</url-pattern>
+    </servlet-mapping>
 
 </web-app>
 	

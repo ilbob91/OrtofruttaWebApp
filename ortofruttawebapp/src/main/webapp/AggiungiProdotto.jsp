@@ -22,7 +22,7 @@
   <input type="submit" style="width:120px; height:45px;" value="Aggiungi">
   </form><br><br>
   
-<form action="PaginaIniziale.jsp">
+<form action="PaginaInizialeVenditore.jsp">
   <input type="submit" value="Torna Indietro">
 
 

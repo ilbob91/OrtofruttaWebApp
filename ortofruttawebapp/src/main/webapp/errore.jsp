@@ -12,7 +12,7 @@
 <br><br>
 
 
-<form action="PaginaIniziale.jsp">
+<form action="PaginaInizialeVenditore.jsp">
 <input type="submit" value="Torna Indietro"> </form>
 </body>
 </html>

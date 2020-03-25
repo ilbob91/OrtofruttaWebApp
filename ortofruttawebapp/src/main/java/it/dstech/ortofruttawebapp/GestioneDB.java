@@ -29,7 +29,7 @@ public class GestioneDB {
 		List<Prodotto> elenco = stampaProdotti(connessione);
 		for (int i = 0; i < elenco.size(); i++) {
 			if (elenco.get(i).getNomeProdotto().equals(name)) {
-				
+
 				int sottrazione = elenco.get(i).getQuantitaResidua() - q;
 				elenco.get(i).setQuantitaResidua(sottrazione);
 				updateTabellaProdotti(connessione, name, sottrazione);
@@ -45,7 +45,7 @@ public class GestioneDB {
 				}
 				connessione.close();
 				return listaProdottiVenduti;
-				
+
 			}
 
 		}
@@ -61,27 +61,11 @@ public class GestioneDB {
 				return false;
 
 			}
-		
 
 		}
 		return true;
 	}
 
-	/*
-	 * private static List<Prodotto> stampaProdotti(Connection connessione) throws
-	 * SQLException { PreparedStatement statement2 =
-	 * connessione.prepareStatement("select * from Prodotto");
-	 * 
-	 * ResultSet risultatoQuery = statement2.executeQuery(); List<Prodotto> elenco =
-	 * new ArrayList<>(); while (risultatoQuery.next()) { String nome =
-	 * risultatoQuery.getString("nomeProdotto"); int quantita =
-	 * risultatoQuery.getInt("quantitaResidua"); double prezzo =
-	 * risultatoQuery.getDouble("prezzo"); String descrizione =
-	 * risultatoQuery.getString("descrizione");
-	 * 
-	 * Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
-	 * elenco.add(prodotto); } return elenco; }
-	 */
 	public static List<Prodotto> stampaProdotti(Connection connessione) throws SQLException {
 		PreparedStatement state = connessione.prepareStatement("select * from Prodotto");
 
@@ -97,6 +81,7 @@ public class GestioneDB {
 			elenco.add(prodotto);
 
 		}
+		connessione.close();
 		return elenco;
 	}
 
@@ -104,6 +89,7 @@ public class GestioneDB {
 		PreparedStatement statement2 = connessione.prepareStatement("select * from Vendita");
 
 		ResultSet risultatoQuery2 = statement2.executeQuery();
+		
 		return risultatoQuery2;
 	}
 
@@ -136,7 +122,9 @@ public class GestioneDB {
 				elenco.remove(i);
 				return elenco;
 			}
+
 		}
+		connessione.close();
 		return null;
 	}
 
@@ -154,22 +142,6 @@ public class GestioneDB {
 		return elenco;
 
 	}
-
-	/*
-	 * private static List<Prodotto> stampaProdotti(Connection connessione) throws
-	 * SQLException { PreparedStatement statement2 =
-	 * connessione.prepareStatement("select * from Prodotto");
-	 * 
-	 * ResultSet risultatoQuery = statement2.executeQuery(); List<Prodotto> elenco =
-	 * new ArrayList<>(); while (risultatoQuery.next()) { String nome =
-	 * risultatoQuery.getString("nomeProdotto"); int quantita =
-	 * risultatoQuery.getInt("quantitaResidua"); double prezzo =
-	 * risultatoQuery.getDouble("prezzo"); String descrizione =
-	 * risultatoQuery.getString("descrizione");
-	 * 
-	 * Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
-	 * elenco.add(prodotto); } return elenco; }
-	 */
 
 	private static void inserisciProdotti(Prodotto p, Connection connessione) throws SQLException {
 		PreparedStatement statement = connessione.prepareStatement(
@@ -193,21 +165,10 @@ public class GestioneDB {
 			elenco.add(p);
 
 		}
+	
 		return elenco;
 	}
 
-	/*
-	 * private static ResultSet stampaListaVenduto(Connection connessione) throws
-	 * SQLException{
-	 * 
-	 * PreparedStatement statement2 =
-	 * connessione.prepareStatement("select * from Vendita");
-	 * 
-	 * ResultSet risultatoQuery2 = statement2.executeQuery(); return
-	 * risultatoQuery2;
-	 * 
-	 * }
-	 */
 	public static List<Prodotto> updateQuantita(Connection connessione, String name, int q)
 			throws SQLException, ClassNotFoundException {
 
@@ -221,6 +182,7 @@ public class GestioneDB {
 				return elenco;
 			}
 		}
+		connessione.close();
 		return null;
 	}
 
@@ -231,59 +193,44 @@ public class GestioneDB {
 		statement.setInt(1, somma);
 		statement.execute();
 	}
-    public static boolean isUtente(Connection connessione, String nome) throws SQLException{
-    	PreparedStatement s = connessione.prepareStatement("select * from Utente where nome = ?;");
-    	s.setString(1, nome);
-    	ResultSet risultato = s.executeQuery();
-    	while (risultato.next()) {
-	
+
+	public static boolean isUtente(Connection connessione, String nome) throws SQLException {
+		PreparedStatement s = connessione.prepareStatement("select * from Utente where nome = ?;");
+		s.setString(1, nome);
+		ResultSet risultato = s.executeQuery();
+		while (risultato.next()) {
+
 			return true;
 		}
-    	connessione.close();
-    	return false;
-    }
-    public static void checkUtente(Connection connessione, String nome, int eta)throws SQLException{
-			if (isUtente(connessione, nome)) {
-				updateUtente(connessione, nome, eta);
-			} else {
-				insertUtente(connessione, nome, eta);
-				
-			}
+		connessione.close();
+		return false;
+	}
+
+	public static void checkUtente(Connection connessione, String nome, int eta) throws SQLException {
+		if (isUtente(connessione, nome)) {
+			updateUtente(connessione, nome, eta);
+		} else {
+			insertUtente(connessione, nome, eta);
+
 		}
-    
-	private static void updateUtente(Connection connessione, String nome, int eta)throws SQLException {
-		PreparedStatement statement = connessione.prepareStatement(
-				"update Utente set eta =? where nome = ?;");
-		
+		connessione.close();
+	}
+
+	private static void updateUtente(Connection connessione, String nome, int eta) throws SQLException {
+		PreparedStatement statement = connessione.prepareStatement("update Utente set eta =? where nome = ?;");
+
 		statement.setInt(1, eta);
 		statement.setString(2, nome);
 		statement.execute();
-		
+
 	}
 
-	public static void insertUtente(Connection connessione, String nome, int eta)  throws SQLException{
-		PreparedStatement statement = connessione.prepareStatement(
-				"insert into Utente (nome, eta) values (?,?);");
+	public static void insertUtente(Connection connessione, String nome, int eta) throws SQLException {
+		PreparedStatement statement = connessione.prepareStatement("insert into Utente (nome, eta) values (?,?);");
 		statement.setString(1, nome);
 		statement.setInt(2, eta);
 		statement.execute();
-		
-	}
 
-	/*
-	 * private static List<Prodotto> stampaProdotti(Connection connessione) throws
-	 * SQLException { PreparedStatement statement2 =
-	 * connessione.prepareStatement("select * from Prodotto");
-	 * 
-	 * ResultSet risultatoQuery = statement2.executeQuery(); List<Prodotto> elenco =
-	 * new ArrayList<>(); while (risultatoQuery.next()) { String nome =
-	 * risultatoQuery.getString("nomeProdotto"); int quantita =
-	 * risultatoQuery.getInt("quantitaResidua"); double prezzo =
-	 * risultatoQuery.getDouble("prezzo"); String descrizione =
-	 * risultatoQuery.getString("descrizione");
-	 * 
-	 * Prodotto prodotto = new Prodotto(nome, quantita, prezzo, descrizione);
-	 * elenco.add(prodotto); } return elenco; }
-	 */
+	}
 
 }
