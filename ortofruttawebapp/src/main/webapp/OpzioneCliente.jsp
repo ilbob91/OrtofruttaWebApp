@@ -3,6 +3,7 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="ISO-8859-1">
 <title>Opzioni cliente</title>
@@ -11,11 +12,10 @@
 <%String nome = (String) request.getAttribute("Utente"); %>
 
 <h2>Benvenuto/a, <%=nome%></h2>
-<form action="prodotti">
+<form action="prodotti" method = "post">
   <input type="submit" style="background-color:#FF5733; border-color:#FF5733; color:white ;width:200px; height:45px;" name= "azione" value="Compra">
   <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>
    <br><br>
-
 </form>
        
 </body>

@@ -19,7 +19,6 @@ public class AggiungiCliente extends HttpServlet {
 		String nome = req.getParameter("user");
 		int eta = Integer.parseInt(req.getParameter("eta"));
 		
-		
 		try {
 			GestioneDB.checkUtente(GestioneDB.connessione(), nome, eta);
 			req.setAttribute("Utente", nome);

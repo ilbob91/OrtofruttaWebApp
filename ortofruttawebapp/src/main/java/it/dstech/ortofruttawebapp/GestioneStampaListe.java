@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class GestioneStampaListe extends HttpServlet {
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String azione = req.getParameter("azione");
 		if (azione.equalsIgnoreCase("Aggiorna un prodotto")) {
 
@@ -44,7 +44,7 @@ public class GestioneStampaListe extends HttpServlet {
 		} else if (azione.equalsIgnoreCase("Compra")) {
 			try {
 				req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
-				
+				req.setAttribute("Utente", req.getParameter("Utente"));
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
