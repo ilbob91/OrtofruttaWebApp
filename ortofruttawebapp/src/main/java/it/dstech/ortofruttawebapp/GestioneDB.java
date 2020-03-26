@@ -18,9 +18,9 @@ public class GestioneDB {
 	public static Connection connessione() throws SQLException, ClassNotFoundException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		String password = "MIGNKbTWv0";
-		String username = "rMIwGtutXd";
-		String url = "jdbc:mysql://remotemysql.com/rMIwGtutXd?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
+		String password = "Karlmatisse90";
+		String username = "root";
+		String url = "jdbc:mysql://localhost:3306/ortofrutta?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
 		Connection connessione = DriverManager.getConnection(url, username, password);
 		return connessione;
 	}
@@ -129,13 +129,14 @@ public class GestioneDB {
 		statement1.execute();
 	}
 
-	public static void inserimentoTabellaAcquisto(Connection connessione, String name, String nomeProdotto, int q)
+	public static void inserimentoTabellaAcquisto(Connection connessione, String name, String nomeProdotto, int q, int idScontrino)
 			throws SQLException {
 		PreparedStatement statement1 = connessione
-				.prepareStatement("insert into acquisto (nome, nomeProdotto, quantitaAcquistata) values (?,?,?);");
+				.prepareStatement("insert into acquisto (nome, nomeProdotto, quantitaAcquistata, idScontrino) values (?,?,?,?);");
 		statement1.setString(1, name);
 		statement1.setString(2, nomeProdotto);
 		statement1.setInt(3, q);
+		statement1.setInt(4, idScontrino);
 		statement1.execute();
 	}
 
@@ -270,19 +271,34 @@ public class GestioneDB {
 
 	}
 	
-	public static double getPrezzo(Connection connessione, String nomeProdotto)throws SQLException {
-		PreparedStatement statement = connessione.prepareStatement("select prezzo from prodotto where nomeProdotto = ?;");
-		statement.setString(1, nomeProdotto);
-		ResultSet ris = statement.executeQuery();
-		while (ris.next()) {
-			
-			return ris.getDouble(1);
+	public static double getPrezzo(Connection connessione, int idScontrino)throws SQLException {
+		double costo = 0;
+		String query = "select acquisto.quantitaAcquistata,prodotto.prezzo from acquisto inner join prodotto on acquisto.nomeProdotto=prodotto.nomeProdotto where acquisto.idScontrino=?;";
+		PreparedStatement statement = connessione.prepareStatement(query);
+		statement.setInt(1, idScontrino);
+
+		ResultSet risultato = statement.executeQuery();
+		while (risultato.next()) {
+
+			costo = costo + (risultato.getInt(1) * risultato.getDouble(2));
 			
 		}
+		connessione.close();
+		return costo;
 		
-		return 0;
+	}
 	
+	public static boolean spesaTotaleScontrino(Connection connessione, int idScontrino, double costo)
+			throws ClassNotFoundException, SQLException {
 		
+		String query = "update scontrino set spesa=? where idScontrino=?;";
+		PreparedStatement statement = connessione.prepareStatement(query);
+		statement.setDouble(1, costo);
+		statement.setInt(2, idScontrino);
+		statement.execute();
+		connessione.close();
+		return true;
+
 	}
 	
 
@@ -291,7 +307,7 @@ public class GestioneDB {
 		PreparedStatement state = connessione.prepareStatement("insert into scontrino (idScontrino, data, nome) values (?,?,?);");
 		java.util.Date data = new java.util.Date();
 		DateFormat formato = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
-		int idScontrino = (int) Math.random()*1000;
+		int idScontrino = (int) (Math.random()*1000 + Math.random()*1000);
 		state.setInt(1, idScontrino);
 		state.setString(2, formato.format(data));
 		state.setString(3, nome);

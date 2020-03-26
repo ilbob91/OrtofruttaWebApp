@@ -24,6 +24,7 @@ public class AcquistoCliente extends HttpServlet {
 			carrello = new ArrayList<>();
 		}
 		String azione = req.getParameter("azione");
+
 		
 
 		if (azione.equalsIgnoreCase("Aggiungi al carrello")) {
@@ -31,10 +32,9 @@ public class AcquistoCliente extends HttpServlet {
 				String nomeUtente = req.getParameter("Utente");
 				String nomeProdotto = req.getParameter("nomeProdotto");
 				int quantita = Integer.parseInt(req.getParameter("quantita"));
-
+				
 				if (GestioneDB.checkVendita(GestioneDB.stampaProdotti(GestioneDB.connessione()), quantita)) {
 					carrello.add(new ProdottoVenduto(nomeUtente, nomeProdotto, quantita));
-					System.out.println(carrello);
 					GestioneDB.updateQuantitaAggiuntaAlCarrello(GestioneDB.connessione(), nomeProdotto, quantita);
 					req.setAttribute("Utente", nomeUtente);
 					req.setAttribute("messaggio", "prodotto aggiunto al carrello");
@@ -51,14 +51,18 @@ public class AcquistoCliente extends HttpServlet {
 		}
 
 		else if (azione.equalsIgnoreCase("Paga")) {
-			String nomeUtente = req.getParameter("Utente");
-			String nomeProdotto = req.getParameter("nomeProdotto");
-			int quantita = Integer.parseInt(req.getParameter("quantita"));
 
 			try {
-				System.out.println(GestioneDB.getPrezzo(GestioneDB.connessione(), nomeProdotto));
-				int idScontrino = GestioneDB.creaScontrino(GestioneDB.connessione(), nomeUtente);
-				GestioneDB.inserimentoTabellaAcquisto(GestioneDB.connessione(), nomeUtente, nomeProdotto, quantita);
+				
+				int idScontrino = GestioneDB.creaScontrino(GestioneDB.connessione(), req.getParameter("Utente"));
+				for (ProdottoVenduto p : carrello) {
+					
+					GestioneDB.inserimentoTabellaAcquisto(GestioneDB.connessione(), p.getNomeCliente(), p.getNomeProdotto(), p.getQuantitaVenduta(), idScontrino);
+				}
+				double spesa = GestioneDB.getPrezzo(GestioneDB.connessione(), idScontrino);
+				System.out.println(spesa);
+				GestioneDB.spesaTotaleScontrino(GestioneDB.connessione(), idScontrino, spesa);
+				carrello.clear();
 
 			} catch (ClassNotFoundException e) {
 
@@ -67,7 +71,7 @@ public class AcquistoCliente extends HttpServlet {
 
 				e.printStackTrace();
 			}
-			req.setAttribute("Utente", nomeUtente);
+			req.setAttribute("Utente", req.getParameter("Utente"));
 			req.getRequestDispatcher("OpzioneCliente.jsp").forward(req, resp);
 		}
 
