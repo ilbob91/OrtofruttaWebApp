@@ -16,9 +16,9 @@ public class GestioneDB {
 	public static Connection connessione() throws SQLException, ClassNotFoundException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		String password = "bBrurP57M6";
-		String username = "rMIwGtutXd";
-		String url = "jdbc:mysql://remotemysql.com:3306/rMIwGtutXd?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
+		String password = "Karlmatisse90";
+		String username = "root";
+		String url = "jdbc:mysql://localhost:3306/ortofrutta?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
 		Connection connessione = DriverManager.getConnection(url, username, password);
 		return connessione;
 	}
@@ -52,6 +52,24 @@ public class GestioneDB {
 		return null;
 	}
 
+	public static void updateQuantitaAggiuntaAlCarrello(Connection connessione, String name, String nomeProdotto, int q)
+			throws SQLException, ClassNotFoundException {
+
+		List<Prodotto> elenco = stampaProdotti(connessione);
+		for (int i = 0; i < elenco.size(); i++) {
+			if (elenco.get(i).getNomeProdotto().equals(nomeProdotto)) {
+
+				int sottrazione = elenco.get(i).getQuantitaResidua() - q;
+				elenco.get(i).setQuantitaResidua(sottrazione);
+				updateTabellaProdotti(connessione, name, sottrazione);
+				
+			}//inserimentoTabellaAcquisto(connessione, name, nomeProdotto, q);
+		}
+	}
+
+	
+	
+
 	public static boolean checkVendita(List<Prodotto> elenco, int q) {
 
 		for (int i = 0; i < elenco.size(); i++) {
@@ -67,7 +85,7 @@ public class GestioneDB {
 	}
 
 	public static List<Prodotto> stampaProdotti(Connection connessione) throws SQLException {
-		PreparedStatement state = connessione.prepareStatement("select * from Prodotto");
+		PreparedStatement state = connessione.prepareStatement("select * from prodotto");
 
 		ResultSet risultatoQuery = state.executeQuery();
 		List<Prodotto> elenco = new ArrayList<>();
@@ -86,25 +104,42 @@ public class GestioneDB {
 	}
 
 	public static ResultSet stampaListaVenduto(Connection connessione) throws SQLException {
-		PreparedStatement statement2 = connessione.prepareStatement("select * from Vendita");
+		PreparedStatement statement2 = connessione.prepareStatement("select * from vendita");
 
 		ResultSet risultatoQuery2 = statement2.executeQuery();
-		
+
+		return risultatoQuery2;
+	}
+	
+	public static ResultSet stampaListaAcquisti(Connection connessione) throws SQLException {
+		PreparedStatement statement2 = connessione.prepareStatement("select * from acquisto");
+
+		ResultSet risultatoQuery2 = statement2.executeQuery();
+
 		return risultatoQuery2;
 	}
 
-	private static void inserimentoTabellaVendita(Connection connessione, String name, int q) throws SQLException {
+	public static void inserimentoTabellaVendita(Connection connessione, String name, int q) throws SQLException {
 		PreparedStatement statement1 = connessione
-				.prepareStatement("insert into Vendita (nomeProdotto, quantitaVenduta) values (?,?);");
+				.prepareStatement("insert into vendita (nomeProdotto, quantitaVenduta) values (?,?);");
 		statement1.setString(1, name);
 		statement1.setInt(2, q);
 		statement1.execute();
 	}
 
-	private static void updateTabellaProdotti(Connection connessione, String name, int sottrazione)
+	public static void inserimentoTabellaAcquisto(Connection connessione, String name, String nomeProdotto, int q)
 			throws SQLException {
+		PreparedStatement statement1 = connessione
+				.prepareStatement("insert into acquisto (nome, nomeProdotto, quantitaAcquistata) values (?,?,?);");
+		statement1.setString(1, name);
+		statement1.setString(2, nomeProdotto);
+		statement1.setInt(3, q);
+		statement1.execute();
+	}
+
+	public static void updateTabellaProdotti(Connection connessione, String name, int sottrazione) throws SQLException {
 		PreparedStatement statement = connessione
-				.prepareStatement("update Prodotto set quantitaResidua = ? where nomeProdotto = ?;");
+				.prepareStatement("update prodotto set quantitaResidua = ? where nomeProdotto = ?;");
 		statement.setString(2, name);
 		statement.setInt(1, sottrazione);
 		statement.execute();
@@ -128,8 +163,8 @@ public class GestioneDB {
 		return null;
 	}
 
-	private static void removeProdotti(Connection connessione, String name) throws SQLException {
-		PreparedStatement statement = connessione.prepareStatement("delete from Prodotto where nomeProdotto = ?;");
+	public static void removeProdotti(Connection connessione, String name) throws SQLException {
+		PreparedStatement statement = connessione.prepareStatement("delete from prodotto where nomeProdotto = ?;");
 		statement.setString(1, name);
 		statement.execute();
 	}
@@ -143,9 +178,9 @@ public class GestioneDB {
 
 	}
 
-	private static void inserisciProdotti(Prodotto p, Connection connessione) throws SQLException {
+	public static void inserisciProdotti(Prodotto p, Connection connessione) throws SQLException {
 		PreparedStatement statement = connessione.prepareStatement(
-				"insert into Prodotto (nomeProdotto, quantitaResidua, prezzo, descrizione) values (?,?,?,?);");
+				"insert into prodotto (nomeProdotto, quantitaResidua, prezzo, descrizione) values (?,?,?,?);");
 		statement.setString(1, p.getNomeProdotto());
 		statement.setInt(2, p.getQuantitaResidua());
 		statement.setDouble(3, p.getPrezzo());
@@ -165,7 +200,7 @@ public class GestioneDB {
 			elenco.add(p);
 
 		}
-	
+
 		return elenco;
 	}
 
@@ -186,23 +221,23 @@ public class GestioneDB {
 		return null;
 	}
 
-	private static void updateProdotti(Connection connessione, String name, int somma) throws SQLException {
+	public static void updateProdotti(Connection connessione, String name, int somma) throws SQLException {
 		PreparedStatement statement = connessione
-				.prepareStatement("update Prodotto set quantitaResidua = ? where nomeProdotto = ?;");
+				.prepareStatement("update prodotto set quantitaResidua = ? where nomeProdotto = ?;");
 		statement.setString(2, name);
 		statement.setInt(1, somma);
 		statement.execute();
 	}
 
 	public static boolean isUtente(Connection connessione, String nome) throws SQLException {
-		PreparedStatement s = connessione.prepareStatement("select * from Utente where nome = ?;");
+		PreparedStatement s = connessione.prepareStatement("select * from utente where nome = ?;");
 		s.setString(1, nome);
 		ResultSet risultato = s.executeQuery();
 		while (risultato.next()) {
 
 			return true;
 		}
-		connessione.close();
+		
 		return false;
 	}
 
@@ -216,8 +251,8 @@ public class GestioneDB {
 		connessione.close();
 	}
 
-	private static void updateUtente(Connection connessione, String nome, int eta) throws SQLException {
-		PreparedStatement statement = connessione.prepareStatement("update Utente set eta =? where nome = ?;");
+	public static void updateUtente(Connection connessione, String nome, int eta) throws SQLException {
+		PreparedStatement statement = connessione.prepareStatement("update utente set eta =? where nome = ?;");
 
 		statement.setInt(1, eta);
 		statement.setString(2, nome);
@@ -226,11 +261,12 @@ public class GestioneDB {
 	}
 
 	public static void insertUtente(Connection connessione, String nome, int eta) throws SQLException {
-		PreparedStatement statement = connessione.prepareStatement("insert into Utente (nome, eta) values (?,?);");
+		PreparedStatement statement = connessione.prepareStatement("insert into utente (nome, eta) values (?,?);");
 		statement.setString(1, nome);
 		statement.setInt(2, eta);
 		statement.execute();
 
 	}
+
 
 }

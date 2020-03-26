@@ -1,7 +1,8 @@
 package it.dstech.ortofruttawebapp.classi;
 
 public class ProdottoVenduto {
-
+	
+	private String nomeCliente;
 	private String nomeProdotto; 
 	private int quantitaVenduta;
 	
@@ -11,6 +12,29 @@ public class ProdottoVenduto {
 		this.quantitaVenduta = quantitaVenduta;
 	}
 	
+	
+	
+	public ProdottoVenduto(String nomeCliente, String nomeProdotto, int quantitaVenduta) {
+		super();
+		this.nomeCliente = nomeCliente;
+		this.nomeProdotto = nomeProdotto;
+		this.quantitaVenduta = quantitaVenduta;
+	}
+
+
+
+	public String getNomeCliente() {
+		return nomeCliente;
+	}
+
+
+
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
+	}
+
+
+
 	public String getNomeProdotto() {
 		return nomeProdotto;
 	}
@@ -24,10 +48,14 @@ public class ProdottoVenduto {
 		this.quantitaVenduta = quantitaVenduta;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "[nome = " + nomeProdotto + ", quantità = " + quantitaVenduta + "]";
+		return "ProdottoVenduto [nomeCliente=" + nomeCliente + ", nomeProdotto=" + nomeProdotto + ", quantitaVenduta="
+				+ quantitaVenduta + "]";
 	}
+
 	
 	
 }

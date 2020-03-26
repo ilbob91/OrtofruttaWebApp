@@ -25,7 +25,12 @@
 <form action="venduto">
   <input type="submit" style="background-color:#900C3F; border-color:#900C3F; color:white ;width:200px; height:45px;" name= "azione" value="Stampa venduto">
   </form> 
- <br>
+ <br><br>
+ 
+   <form action="Home.jsp">
+  <input type="submit" value="Torna Indietro">
+
+</form>   
        
 </body>
 </html>

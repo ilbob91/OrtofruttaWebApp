@@ -25,6 +25,18 @@ table, th, td {
 
 
 %>
+
+<% String mess = (String) request.getAttribute("mess"); 
+	if (mess != null ){
+		%>
+	
+		<%=mess%>
+					
+	<% }
+	
+
+
+%>
 <% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
 <%String nome = (String) request.getAttribute("Utente"); %>
 <table>
