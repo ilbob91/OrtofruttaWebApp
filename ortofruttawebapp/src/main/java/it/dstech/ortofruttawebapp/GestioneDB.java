@@ -18,9 +18,9 @@ public class GestioneDB {
 	public static Connection connessione() throws SQLException, ClassNotFoundException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		String password = "Karlmatisse90";
-		String username = "root";
-		String url = "jdbc:mysql://localhost:3306/ortofrutta?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
+		String password = "MIGNKbTWv0";
+		String username = "rMIwGtutXd";
+		String url = "jdbc:mysql://remotemysql.com/rMIwGtutXd?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
 		Connection connessione = DriverManager.getConnection(url, username, password);
 		return connessione;
 	}
@@ -286,16 +286,17 @@ public class GestioneDB {
 	}
 	
 
-	public static void creaScontrino(Connection connessione, String nome, double spesa) throws SQLException {
+	public static int creaScontrino(Connection connessione, String nome) throws SQLException {
 		
-		PreparedStatement state = connessione.prepareStatement("insert into scontrino (data, spesa, nome) values (?,?,?);");
+		PreparedStatement state = connessione.prepareStatement("insert into scontrino (idScontrino, data, nome) values (?,?,?);");
 		java.util.Date data = new java.util.Date();
 		DateFormat formato = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
-		state.setString(1, formato.format(data));
-		state.setDouble(2, spesa);
+		int idScontrino = (int) Math.random()*1000;
+		state.setInt(1, idScontrino);
+		state.setString(2, formato.format(data));
 		state.setString(3, nome);
 		state.execute();
-		
+		return idScontrino;
 	}
 
 

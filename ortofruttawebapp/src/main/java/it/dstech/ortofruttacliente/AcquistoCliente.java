@@ -24,15 +24,14 @@ public class AcquistoCliente extends HttpServlet {
 			carrello = new ArrayList<>();
 		}
 		String azione = req.getParameter("azione");
-		String nomeUtente = req.getParameter("Utente");
-		String nomeProdotto = req.getParameter("nomeProdotto");
-		int quantita = Integer.parseInt(req.getParameter("quantita"));
 		
+
 		if (azione.equalsIgnoreCase("Aggiungi al carrello")) {
 			try {
-				
+				String nomeUtente = req.getParameter("Utente");
+				String nomeProdotto = req.getParameter("nomeProdotto");
+				int quantita = Integer.parseInt(req.getParameter("quantita"));
 
-				
 				if (GestioneDB.checkVendita(GestioneDB.stampaProdotti(GestioneDB.connessione()), quantita)) {
 					carrello.add(new ProdottoVenduto(nomeUtente, nomeProdotto, quantita));
 					System.out.println(carrello);
@@ -52,13 +51,15 @@ public class AcquistoCliente extends HttpServlet {
 		}
 
 		else if (azione.equalsIgnoreCase("Paga")) {
+			String nomeUtente = req.getParameter("Utente");
+			String nomeProdotto = req.getParameter("nomeProdotto");
+			int quantita = Integer.parseInt(req.getParameter("quantita"));
 
 			try {
-
-				GestioneDB.creaScontrino(GestioneDB.connessione(), nomeUtente, returnSpesa());
-				
+				System.out.println(GestioneDB.getPrezzo(GestioneDB.connessione(), nomeProdotto));
+				int idScontrino = GestioneDB.creaScontrino(GestioneDB.connessione(), nomeUtente);
 				GestioneDB.inserimentoTabellaAcquisto(GestioneDB.connessione(), nomeUtente, nomeProdotto, quantita);
-				System.out.println(returnSpesa());
+
 			} catch (ClassNotFoundException e) {
 
 				e.printStackTrace();
@@ -70,30 +71,6 @@ public class AcquistoCliente extends HttpServlet {
 			req.getRequestDispatcher("OpzioneCliente.jsp").forward(req, resp);
 		}
 
-	}
-
-	public double returnSpesa() {
-		double somma = 0;
-		double spesa = 0;
-		List<Double> spesaAcquisti = new ArrayList<>();
-
-		for (int i = 0; i < carrello.size(); i++) {
-			try {
-				somma += GestioneDB.getPrezzo(GestioneDB.connessione(), carrello.get(i).getNomeProdotto());
-				spesa += somma * carrello.get(i).getQuantitaVenduta();
-				spesaAcquisti.add(spesa);
-
-			} catch (ClassNotFoundException e) {
-
-				e.printStackTrace();
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
-			
-		}
-		return spesa;
-		
 	}
 
 }
