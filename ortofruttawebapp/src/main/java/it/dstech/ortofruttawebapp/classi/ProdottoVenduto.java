@@ -5,11 +5,13 @@ public class ProdottoVenduto {
 	private String nomeCliente;
 	private String nomeProdotto; 
 	private int quantitaVenduta;
+	private double prezzo;
 	
 	public ProdottoVenduto(String nomeProdotto, int quantitaVenduta) {
 		super();
 		this.nomeProdotto = nomeProdotto;
 		this.quantitaVenduta = quantitaVenduta;
+	
 	}
 	
 	
@@ -19,6 +21,29 @@ public class ProdottoVenduto {
 		this.nomeCliente = nomeCliente;
 		this.nomeProdotto = nomeProdotto;
 		this.quantitaVenduta = quantitaVenduta;
+	}
+
+
+
+	public ProdottoVenduto(String nomeCliente, String nomeProdotto, int quantitaVenduta, double prezzo) {
+		super();
+		this.nomeCliente = nomeCliente;
+		this.nomeProdotto = nomeProdotto;
+		this.quantitaVenduta = quantitaVenduta;
+		this.prezzo = prezzo;
+	
+	}
+
+
+
+	public double getPrezzo() {
+		return prezzo;
+	}
+
+
+
+	public void setPrezzo(double prezzo) {
+		this.prezzo = prezzo;
 	}
 
 
@@ -53,8 +78,12 @@ public class ProdottoVenduto {
 	@Override
 	public String toString() {
 		return "ProdottoVenduto [nomeCliente=" + nomeCliente + ", nomeProdotto=" + nomeProdotto + ", quantitaVenduta="
-				+ quantitaVenduta + "]";
+				+ quantitaVenduta + ", prezzo=" + prezzo + "]";
 	}
+
+
+
+
 
 	
 	

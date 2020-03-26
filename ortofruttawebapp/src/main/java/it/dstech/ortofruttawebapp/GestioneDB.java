@@ -5,8 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import it.dstech.ortofruttawebapp.classi.Prodotto;
 import it.dstech.ortofruttawebapp.classi.ProdottoVenduto;
@@ -52,7 +54,7 @@ public class GestioneDB {
 		return null;
 	}
 
-	public static void updateQuantitaAggiuntaAlCarrello(Connection connessione, String name, String nomeProdotto, int q)
+	public static void updateQuantitaAggiuntaAlCarrello(Connection connessione, String nomeProdotto, int q)
 			throws SQLException, ClassNotFoundException {
 
 		List<Prodotto> elenco = stampaProdotti(connessione);
@@ -61,7 +63,7 @@ public class GestioneDB {
 
 				int sottrazione = elenco.get(i).getQuantitaResidua() - q;
 				elenco.get(i).setQuantitaResidua(sottrazione);
-				updateTabellaProdotti(connessione, name, sottrazione);
+				updateTabellaProdotti(connessione, nomeProdotto, sottrazione);
 				
 			}//inserimentoTabellaAcquisto(connessione, name, nomeProdotto, q);
 		}
@@ -99,7 +101,7 @@ public class GestioneDB {
 			elenco.add(prodotto);
 
 		}
-		connessione.close();
+		
 		return elenco;
 	}
 
@@ -266,6 +268,34 @@ public class GestioneDB {
 		statement.setInt(2, eta);
 		statement.execute();
 
+	}
+	
+	public static double getPrezzo(Connection connessione, String nomeProdotto)throws SQLException {
+		PreparedStatement statement = connessione.prepareStatement("select prezzo from prodotto where nomeProdotto = ?;");
+		statement.setString(1, nomeProdotto);
+		ResultSet ris = statement.executeQuery();
+		while (ris.next()) {
+			
+			return ris.getDouble(1);
+			
+		}
+		
+		return 0;
+	
+		
+	}
+	
+
+	public static void creaScontrino(Connection connessione, String nome, double spesa) throws SQLException {
+		
+		PreparedStatement state = connessione.prepareStatement("insert into scontrino (data, spesa, nome) values (?,?,?);");
+		java.util.Date data = new java.util.Date();
+		DateFormat formato = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
+		state.setString(1, formato.format(data));
+		state.setDouble(2, spesa);
+		state.setString(3, nome);
+		state.execute();
+		
 	}
 
 

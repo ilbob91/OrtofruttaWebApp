@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.dstech.ortofruttawebapp.GestioneDB;
+import it.dstech.ortofruttawebapp.classi.Prodotto;
 import it.dstech.ortofruttawebapp.classi.ProdottoVenduto;
 
 public class AcquistoCliente extends HttpServlet {
@@ -23,36 +24,76 @@ public class AcquistoCliente extends HttpServlet {
 			carrello = new ArrayList<>();
 		}
 		String azione = req.getParameter("azione");
-
+		String nomeUtente = req.getParameter("Utente");
+		String nomeProdotto = req.getParameter("nomeProdotto");
+		int quantita = Integer.parseInt(req.getParameter("quantita"));
+		
 		if (azione.equalsIgnoreCase("Aggiungi al carrello")) {
 			try {
-				String nomeProdotto = req.getParameter("nomeProdotto");
-				int quantita = Integer.parseInt(req.getParameter("quantita"));
 				
-				String nomeUtente = req.getParameter("Utente");
+
+				
 				if (GestioneDB.checkVendita(GestioneDB.stampaProdotti(GestioneDB.connessione()), quantita)) {
 					carrello.add(new ProdottoVenduto(nomeUtente, nomeProdotto, quantita));
-					GestioneDB.updateQuantitaAggiuntaAlCarrello(GestioneDB.connessione(), nomeUtente, nomeProdotto, quantita);
+					System.out.println(carrello);
+					GestioneDB.updateQuantitaAggiuntaAlCarrello(GestioneDB.connessione(), nomeProdotto, quantita);
 					req.setAttribute("Utente", nomeUtente);
 					req.setAttribute("messaggio", "prodotto aggiunto al carrello");
 					req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
-				}
-				else {
+				} else {
 					req.setAttribute("mess", "quantità del prodotto insufficiente");
 				}
-				
-
-				
 
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 
 			req.getRequestDispatcher("AcquistiCliente.jsp").forward(req, resp);
-		} else if (azione.equalsIgnoreCase("Paga")) {
-			
-			req.getRequestDispatcher("").forward(req, resp);
+		}
+
+		else if (azione.equalsIgnoreCase("Paga")) {
+
+			try {
+
+				GestioneDB.creaScontrino(GestioneDB.connessione(), nomeUtente, returnSpesa());
+				
+				GestioneDB.inserimentoTabellaAcquisto(GestioneDB.connessione(), nomeUtente, nomeProdotto, quantita);
+				System.out.println(returnSpesa());
+			} catch (ClassNotFoundException e) {
+
+				e.printStackTrace();
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+			}
+			req.setAttribute("Utente", nomeUtente);
+			req.getRequestDispatcher("OpzioneCliente.jsp").forward(req, resp);
 		}
 
 	}
+
+	public double returnSpesa() {
+		double somma = 0;
+		double spesa = 0;
+		List<Double> spesaAcquisti = new ArrayList<>();
+
+		for (int i = 0; i < carrello.size(); i++) {
+			try {
+				somma += GestioneDB.getPrezzo(GestioneDB.connessione(), carrello.get(i).getNomeProdotto());
+				spesa += somma * carrello.get(i).getQuantitaVenduta();
+				spesaAcquisti.add(spesa);
+
+			} catch (ClassNotFoundException e) {
+
+				e.printStackTrace();
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+			}
+			
+		}
+		return spesa;
+		
+	}
+
 }
