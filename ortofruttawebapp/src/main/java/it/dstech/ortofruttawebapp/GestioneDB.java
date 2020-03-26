@@ -12,15 +12,16 @@ import java.util.Locale;
 
 import it.dstech.ortofruttawebapp.classi.Prodotto;
 import it.dstech.ortofruttawebapp.classi.ProdottoVenduto;
+import it.dstech.ortofruttawebapp.classi.Scontrino;
 import it.dstech.ortofruttawebapp.classi.Utente;
 
 public class GestioneDB {
 	public static Connection connessione() throws SQLException, ClassNotFoundException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		String password = "Karlmatisse90";
-		String username = "root";
-		String url = "jdbc:mysql://localhost:3306/ortofrutta?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
+		String password = "MIGNKbTWv0";
+		String username = "rMIwGtutXd";
+		String url = "jdbc:mysql://remotemysql.com:3306/rMIwGtutXd?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
 		Connection connessione = DriverManager.getConnection(url, username, password);
 		return connessione;
 	}
@@ -315,5 +316,48 @@ public class GestioneDB {
 		return idScontrino;
 	}
 
+	public static List<Scontrino> stampaScontrini(Connection connessione, String nome) throws SQLException {
+		PreparedStatement statement = connessione.prepareStatement("select * from scontrino where nome = ?;");
+		statement.setString(1, nome);
+		
+		ResultSet risultatoQuery = statement.executeQuery();
+		List<Scontrino> elenco = new ArrayList<>();
+		while (risultatoQuery.next()) {
+			int idScontrino = risultatoQuery.getInt("idScontrino");
+			String data = risultatoQuery.getString("data");
+			double spesa = risultatoQuery.getDouble("spesa");
+			
 
-}
+			Scontrino scontrino = new Scontrino(idScontrino, nome, data, spesa);
+			elenco.add(scontrino);
+
+		}
+		
+		return elenco;
+		
+	}
+
+	
+		public static List<ProdottoVenduto> stampaProdottiScontrino(Connection connessione, int idScontrino) throws SQLException {
+			PreparedStatement statement = connessione.prepareStatement("select nome, nomeProdotto, quantitaAcquistata from acquisto where idScontrino = ?;");
+			statement.setInt(1, idScontrino);
+			
+			ResultSet risultatoQuery = statement.executeQuery();
+			List<ProdottoVenduto> elenco = new ArrayList<>();
+			while (risultatoQuery.next()) {
+				String nome = risultatoQuery.getString("nome");
+				String nomeProdotto = risultatoQuery.getString("nomeProdotto");
+				int quantita = risultatoQuery.getInt("quantitaAcquistata");
+				
+				ProdottoVenduto p = new ProdottoVenduto(idScontrino, nome, nomeProdotto, quantita);
+				elenco.add(p);
+
+			}
+			
+			return elenco;
+			
+		}
+	}
+
+
+

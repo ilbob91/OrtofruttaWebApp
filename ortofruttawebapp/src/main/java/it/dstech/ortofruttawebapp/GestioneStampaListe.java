@@ -51,5 +51,26 @@ public class GestioneStampaListe extends HttpServlet {
 			}
 			req.getRequestDispatcher("AcquistiCliente.jsp").forward(req, resp);
 		}
+		else if (azione.equalsIgnoreCase("Stampa Scontrini")) {
+			try {
+				req.setAttribute("ListaScontrini", GestioneDB.stampaScontrini(GestioneDB.connessione(), req.getParameter("Utente")));
+				req.setAttribute("Utente", req.getParameter("Utente"));
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+			req.getRequestDispatcher("ListaScontrini.jsp").forward(req, resp);
+		}
+		else if (azione.equalsIgnoreCase("Dettagli")) {
+			try {
+				req.setAttribute("Utente", req.getParameter("Utente"));
+				int idScontrino = Integer.parseInt(req.getParameter("id"));
+				req.setAttribute("id", idScontrino);
+				req.setAttribute("ListaProdottiDelloScontrino", GestioneDB.stampaProdottiScontrino(GestioneDB.connessione(), idScontrino));
+				
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
+			req.getRequestDispatcher("ListaProdottiDelloScontrino.jsp").forward(req, resp);
+		}
 	}
 }
