@@ -32,13 +32,15 @@ public class AcquistoCliente extends HttpServlet {
 				String nomeProdotto = req.getParameter("nomeProdotto");
 				int quantita = Integer.parseInt(req.getParameter("quantita"));
 
-				List<Prodotto> stampaProdotti = gestione.stampaProdotti();
-				if (gestione.checkVendita(stampaProdotti, nomeProdotto, quantita)) {
+				
+					//gestione.stampaProdotti();
+				if (gestione.checkVendita(gestione.stampaProdotti(), nomeProdotto, quantita)) {
 					carrello.add(new ProdottoVenduto(nomeUtente, nomeProdotto, quantita));
 					gestione.updateQuantitaAggiuntaAlCarrello(nomeProdotto, quantita);
 					req.setAttribute("Utente", nomeUtente);
+					req.setAttribute("ListaProdotti", gestione.stampaProdotti());
 					req.setAttribute("messaggio", "prodotto aggiunto al carrello");
-					req.setAttribute("ListaProdotti", stampaProdotti);
+					
 				} else {
 					req.setAttribute("mess", "quantità del prodotto insufficiente");
 				}

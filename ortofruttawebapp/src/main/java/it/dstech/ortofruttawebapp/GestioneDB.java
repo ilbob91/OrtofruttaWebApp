@@ -73,12 +73,13 @@ public class GestioneDB {
 		}
 	}
 
-	public boolean checkVendita(List<Prodotto> elenco, String nomeProdotto, int q) {
+	public boolean checkVendita(List<Prodotto> elenco, String nomeProdotto, int q) throws ClassNotFoundException, SQLException {
 		for (Prodotto p : elenco) {
 			if (nomeProdotto.equalsIgnoreCase(p.getNomeProdotto()) && q > p.getQuantitaResidua()) {
 				return false;
 			}
 		}
+		
 		return true;
 	}
 
