@@ -31,12 +31,12 @@ public class VendiProdotti extends HttpServlet {
 		String nomeProdotto1 = req.getParameter("nomeProdotto");
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
-				
-			if(GestioneDB.checkVendita(GestioneDB.stampaProdotti(GestioneDB.connessione()),nomeProdotto1, quantita1)) {
+			GestioneDB gest = new GestioneDB();	
+			if(gest.checkVendita(gest.stampaProdotti(),nomeProdotto1, quantita1)) {
 				
 			
 			req.setAttribute("ListaProdottiVenduti",
-					GestioneDB.updateQuantitaVendute(GestioneDB.connessione(), nomeProdotto1, quantita1));
+					gest.updateQuantitaVendute(nomeProdotto1, quantita1));
 			}
 			
 			else {
@@ -44,6 +44,7 @@ public class VendiProdotti extends HttpServlet {
 				req.getRequestDispatcher("errore.jsp").forward(req, resp);
 				
 			}
+			gest.close();
 			} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

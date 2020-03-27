@@ -34,7 +34,9 @@ public class AggiungiProdotto extends HttpServlet {
 		String descrizione = req.getParameter("descrizione");
 		Prodotto p = new Prodotto(nomeProdotto, quantita, prezzo, descrizione);
 		try {
-			req.setAttribute("ListaProdotti", GestioneDB.getProdotti(p, GestioneDB.connessione()));
+			GestioneDB gest = new GestioneDB();
+			req.setAttribute("ListaProdotti", gest.getProdotti(p));
+			gest.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

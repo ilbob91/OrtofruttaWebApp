@@ -16,36 +16,46 @@ public class GestioneStampaListe extends HttpServlet {
 		if (azione.equalsIgnoreCase("Aggiorna un prodotto")) {
 
 			try {
-				req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
+				GestioneDB gestione = new GestioneDB();
+				req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 			req.getRequestDispatcher("AggiornaLista.jsp").forward(req, resp);
 		} else if (azione.equalsIgnoreCase("Rimuovi un prodotto")) {
 			try {
-				req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
+				GestioneDB gestione = new GestioneDB();
+				req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 			req.getRequestDispatcher("RimuoviProdotto.jsp").forward(req, resp);
 		} else if (azione.equalsIgnoreCase("Vendi un prodotto")) {
 			try {
-				req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
+				GestioneDB gestione = new GestioneDB();
+				req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 			req.getRequestDispatcher("Vendita.jsp").forward(req, resp);
 		} else if (azione.equalsIgnoreCase("Stampa i prodotti")) {
 			try {
-				req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
+				GestioneDB gestione = new GestioneDB();
+				req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 			req.getRequestDispatcher("ListaProdotti.jsp").forward(req, resp);
 		} else if (azione.equalsIgnoreCase("Compra")) {
 			try {
-				req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
+				GestioneDB gestione = new GestioneDB();
+				req.setAttribute("ListaProdotti", gestione.stampaProdotti());
 				req.setAttribute("Utente", req.getParameter("Utente"));
+				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -53,8 +63,10 @@ public class GestioneStampaListe extends HttpServlet {
 		}
 		else if (azione.equalsIgnoreCase("Stampa Scontrini")) {
 			try {
-				req.setAttribute("ListaScontrini", GestioneDB.stampaScontrini(GestioneDB.connessione(), req.getParameter("Utente")));
+				GestioneDB gestione = new GestioneDB();
+				req.setAttribute("ListaScontrini", gestione.stampaScontrini(req.getParameter("Utente")));
 				req.setAttribute("Utente", req.getParameter("Utente"));
+				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -62,11 +74,12 @@ public class GestioneStampaListe extends HttpServlet {
 		}
 		else if (azione.equalsIgnoreCase("Dettagli")) {
 			try {
+				GestioneDB gestione = new GestioneDB();
 				req.setAttribute("Utente", req.getParameter("Utente"));
 				int idScontrino = Integer.parseInt(req.getParameter("id"));
 				req.setAttribute("id", idScontrino);
-				req.setAttribute("ListaProdottiDelloScontrino", GestioneDB.stampaProdottiScontrino(GestioneDB.connessione(), idScontrino));
-				
+				req.setAttribute("ListaProdottiDelloScontrino", gestione.stampaProdottiScontrino(idScontrino));
+				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}

@@ -157,7 +157,7 @@ public class GestioneDB {
 			}
 
 		}
-		connessione.close();
+	
 		return null;
 	}
 
@@ -170,7 +170,7 @@ public class GestioneDB {
 	public List<Prodotto> getProdotti(Prodotto p) throws SQLException, ClassNotFoundException {
 		inserisciProdotti(p);
 		List<Prodotto> elenco = stampaProdotti();
-		connessione.close();
+		
 		return elenco;
 
 	}
@@ -212,7 +212,7 @@ public class GestioneDB {
 				return elenco;
 			}
 		}
-		connessione.close();
+	
 		return null;
 	}
 
@@ -304,7 +304,7 @@ public class GestioneDB {
 		return idScontrino;
 	}
 
-	public static List<Scontrino> stampaScontrini(Connection connessione, String nome) throws SQLException {
+	public  List<Scontrino> stampaScontrini(String nome) throws SQLException {
 		PreparedStatement statement = connessione.prepareStatement("select * from scontrino where nome = ?;");
 		statement.setString(1, nome);
 
@@ -324,7 +324,7 @@ public class GestioneDB {
 
 	}
 
-	public static List<ProdottoVenduto> stampaProdottiScontrino(Connection connessione, int idScontrino)
+	public  List<ProdottoVenduto> stampaProdottiScontrino(int idScontrino)
 			throws SQLException {
 		PreparedStatement statement = connessione
 				.prepareStatement("select nome, nomeProdotto, quantitaAcquistata from acquisto where idScontrino = ?;");

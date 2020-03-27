@@ -30,8 +30,10 @@ public class RimuoviProdotto extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String nome1 = req.getParameter("nomeProdotto");
 		try {
+			GestioneDB gest = new GestioneDB();
 			req.setAttribute("ListaProdotti",
-					GestioneDB.getListaProdottiDopoRimozione(GestioneDB.connessione(), nome1));
+					gest.getListaProdottiDopoRimozione(nome1));
+			gest.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
