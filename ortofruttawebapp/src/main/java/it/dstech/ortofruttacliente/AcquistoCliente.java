@@ -25,24 +25,24 @@ public class AcquistoCliente extends HttpServlet {
 		}
 		String azione = req.getParameter("azione");
 
-		
-
 		if (azione.equalsIgnoreCase("Aggiungi al carrello")) {
 			try {
+				GestioneDB gestione = new GestioneDB();
 				String nomeUtente = req.getParameter("Utente");
 				String nomeProdotto = req.getParameter("nomeProdotto");
 				int quantita = Integer.parseInt(req.getParameter("quantita"));
-				
-				if (GestioneDB.checkVendita(GestioneDB.stampaProdotti(GestioneDB.connessione()), quantita)) {
+
+				List<Prodotto> stampaProdotti = gestione.stampaProdotti();
+				if (gestione.checkVendita(stampaProdotti, nomeProdotto, quantita)) {
 					carrello.add(new ProdottoVenduto(nomeUtente, nomeProdotto, quantita));
-					GestioneDB.updateQuantitaAggiuntaAlCarrello(GestioneDB.connessione(), nomeProdotto, quantita);
+					gestione.updateQuantitaAggiuntaAlCarrello(nomeProdotto, quantita);
 					req.setAttribute("Utente", nomeUtente);
 					req.setAttribute("messaggio", "prodotto aggiunto al carrello");
-					req.setAttribute("ListaProdotti", GestioneDB.stampaProdotti(GestioneDB.connessione()));
+					req.setAttribute("ListaProdotti", stampaProdotti);
 				} else {
 					req.setAttribute("mess", "quantità del prodotto insufficiente");
 				}
-
+				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -53,17 +53,18 @@ public class AcquistoCliente extends HttpServlet {
 		else if (azione.equalsIgnoreCase("Paga")) {
 
 			try {
-				
-				int idScontrino = GestioneDB.creaScontrino(GestioneDB.connessione(), req.getParameter("Utente"));
+				GestioneDB gest = new GestioneDB();
+				int idScontrino = gest.creaScontrino(req.getParameter("Utente"));
 				for (ProdottoVenduto p : carrello) {
-					
-					GestioneDB.inserimentoTabellaAcquisto(GestioneDB.connessione(), p.getNomeCliente(), p.getNomeProdotto(), p.getQuantitaVenduta(), idScontrino);
-				}
-				double spesa = GestioneDB.getPrezzo(GestioneDB.connessione(), idScontrino);
-				System.out.println(spesa);
-				GestioneDB.spesaTotaleScontrino(GestioneDB.connessione(), idScontrino, spesa);
-				carrello.clear();
 
+					gest.inserimentoTabellaAcquisto(p.getNomeCliente(), p.getNomeProdotto(), p.getQuantitaVenduta(),
+							idScontrino);
+				}
+				double spesa = gest.getPrezzo(idScontrino);
+				System.out.println(spesa);
+				gest.spesaTotaleScontrino(idScontrino, spesa);
+				carrello.clear();
+				gest.close();
 			} catch (ClassNotFoundException e) {
 
 				e.printStackTrace();

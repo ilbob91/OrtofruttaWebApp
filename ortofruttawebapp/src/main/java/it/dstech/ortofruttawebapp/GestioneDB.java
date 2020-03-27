@@ -13,31 +13,35 @@ import java.util.Locale;
 import it.dstech.ortofruttawebapp.classi.Prodotto;
 import it.dstech.ortofruttawebapp.classi.ProdottoVenduto;
 import it.dstech.ortofruttawebapp.classi.Scontrino;
-import it.dstech.ortofruttawebapp.classi.Utente;
 
 public class GestioneDB {
-	public static Connection connessione() throws SQLException, ClassNotFoundException {
+
+	private Connection connessione;
+
+	public GestioneDB() throws SQLException, ClassNotFoundException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		String password = "MIGNKbTWv0";
 		String username = "rMIwGtutXd";
 		String url = "jdbc:mysql://remotemysql.com:3306/rMIwGtutXd?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
-		Connection connessione = DriverManager.getConnection(url, username, password);
-		return connessione;
+		this.connessione = DriverManager.getConnection(url, username, password);
+	}
+	
+	public void close() throws SQLException {
+		this.connessione.close();
 	}
 
-	public static List<ProdottoVenduto> updateQuantitaVendute(Connection connessione, String name, int q)
-			throws SQLException, ClassNotFoundException {
+	public List<ProdottoVenduto> updateQuantitaVendute(String name, int q) throws SQLException, ClassNotFoundException {
 
-		List<Prodotto> elenco = stampaProdotti(connessione);
+		List<Prodotto> elenco = stampaProdotti();
 		for (int i = 0; i < elenco.size(); i++) {
 			if (elenco.get(i).getNomeProdotto().equals(name)) {
 
 				int sottrazione = elenco.get(i).getQuantitaResidua() - q;
 				elenco.get(i).setQuantitaResidua(sottrazione);
-				updateTabellaProdotti(connessione, name, sottrazione);
-				inserimentoTabellaVendita(connessione, name, q);
-				ResultSet risultatoQuery2 = stampaListaVenduto(connessione);
+				updateTabellaProdotti(name, sottrazione);
+				inserimentoTabellaVendita(name, q);
+				ResultSet risultatoQuery2 = stampaListaVenduto();
 				List<ProdottoVenduto> listaProdottiVenduti = new ArrayList<>();
 				while (risultatoQuery2.next()) {
 					String nome = risultatoQuery2.getString("nomeProdotto");
@@ -46,7 +50,6 @@ public class GestioneDB {
 					ProdottoVenduto prodotto = new ProdottoVenduto(nome, quantita);
 					listaProdottiVenduti.add(prodotto);
 				}
-				connessione.close();
 				return listaProdottiVenduti;
 
 			}
@@ -55,39 +58,31 @@ public class GestioneDB {
 		return null;
 	}
 
-	public static void updateQuantitaAggiuntaAlCarrello(Connection connessione, String nomeProdotto, int q)
+	public void updateQuantitaAggiuntaAlCarrello(String nomeProdotto, int q)
 			throws SQLException, ClassNotFoundException {
 
-		List<Prodotto> elenco = stampaProdotti(connessione);
+		List<Prodotto> elenco = stampaProdotti();
 		for (int i = 0; i < elenco.size(); i++) {
 			if (elenco.get(i).getNomeProdotto().equals(nomeProdotto)) {
 
 				int sottrazione = elenco.get(i).getQuantitaResidua() - q;
 				elenco.get(i).setQuantitaResidua(sottrazione);
-				updateTabellaProdotti(connessione, nomeProdotto, sottrazione);
-				
-			}//inserimentoTabellaAcquisto(connessione, name, nomeProdotto, q);
+				updateTabellaProdotti(nomeProdotto, sottrazione);
+
+			} // inserimentoTabellaAcquisto(connessione, name, nomeProdotto, q);
 		}
 	}
 
-	
-	
-
-	public static boolean checkVendita(List<Prodotto> elenco, int q) {
-
-		for (int i = 0; i < elenco.size(); i++) {
-
-			if (q > elenco.get(i).getQuantitaResidua()) {
-
+	public boolean checkVendita(List<Prodotto> elenco, String nomeProdotto, int q) {
+		for (Prodotto p : elenco) {
+			if (nomeProdotto.equalsIgnoreCase(p.getNomeProdotto()) && q > p.getQuantitaResidua()) {
 				return false;
-
 			}
-
 		}
 		return true;
 	}
 
-	public static List<Prodotto> stampaProdotti(Connection connessione) throws SQLException {
+	public List<Prodotto> stampaProdotti() throws SQLException {
 		PreparedStatement state = connessione.prepareStatement("select * from prodotto");
 
 		ResultSet risultatoQuery = state.executeQuery();
@@ -102,19 +97,19 @@ public class GestioneDB {
 			elenco.add(prodotto);
 
 		}
-		
+
 		return elenco;
 	}
 
-	public static ResultSet stampaListaVenduto(Connection connessione) throws SQLException {
+	public ResultSet stampaListaVenduto() throws SQLException {
 		PreparedStatement statement2 = connessione.prepareStatement("select * from vendita");
 
 		ResultSet risultatoQuery2 = statement2.executeQuery();
 
 		return risultatoQuery2;
 	}
-	
-	public static ResultSet stampaListaAcquisti(Connection connessione) throws SQLException {
+
+	public ResultSet stampaListaAcquisti() throws SQLException {
 		PreparedStatement statement2 = connessione.prepareStatement("select * from acquisto");
 
 		ResultSet risultatoQuery2 = statement2.executeQuery();
@@ -122,7 +117,7 @@ public class GestioneDB {
 		return risultatoQuery2;
 	}
 
-	public static void inserimentoTabellaVendita(Connection connessione, String name, int q) throws SQLException {
+	public void inserimentoTabellaVendita(String name, int q) throws SQLException {
 		PreparedStatement statement1 = connessione
 				.prepareStatement("insert into vendita (nomeProdotto, quantitaVenduta) values (?,?);");
 		statement1.setString(1, name);
@@ -130,10 +125,10 @@ public class GestioneDB {
 		statement1.execute();
 	}
 
-	public static void inserimentoTabellaAcquisto(Connection connessione, String name, String nomeProdotto, int q, int idScontrino)
+	public void inserimentoTabellaAcquisto(String name, String nomeProdotto, int q, int idScontrino)
 			throws SQLException {
-		PreparedStatement statement1 = connessione
-				.prepareStatement("insert into acquisto (nome, nomeProdotto, quantitaAcquistata, idScontrino) values (?,?,?,?);");
+		PreparedStatement statement1 = connessione.prepareStatement(
+				"insert into acquisto (nome, nomeProdotto, quantitaAcquistata, idScontrino) values (?,?,?,?);");
 		statement1.setString(1, name);
 		statement1.setString(2, nomeProdotto);
 		statement1.setInt(3, q);
@@ -141,7 +136,7 @@ public class GestioneDB {
 		statement1.execute();
 	}
 
-	public static void updateTabellaProdotti(Connection connessione, String name, int sottrazione) throws SQLException {
+	public void updateTabellaProdotti(String name, int sottrazione) throws SQLException {
 		PreparedStatement statement = connessione
 				.prepareStatement("update prodotto set quantitaResidua = ? where nomeProdotto = ?;");
 		statement.setString(2, name);
@@ -149,15 +144,14 @@ public class GestioneDB {
 		statement.execute();
 	}
 
-	public static List<Prodotto> getListaProdottiDopoRimozione(Connection connessione, String name)
-			throws SQLException, ClassNotFoundException {
+	public List<Prodotto> getListaProdottiDopoRimozione(String name) throws SQLException, ClassNotFoundException {
 
-		List<Prodotto> elenco = stampaProdotti(connessione);
+		List<Prodotto> elenco = stampaProdotti();
 
 		for (int i = 0; i < elenco.size(); i++) {
 			if (elenco.get(i).getNomeProdotto().equals(name)) {
 
-				removeProdotti(connessione, name);
+				removeProdotti(name);
 				elenco.remove(i);
 				return elenco;
 			}
@@ -167,22 +161,21 @@ public class GestioneDB {
 		return null;
 	}
 
-	public static void removeProdotti(Connection connessione, String name) throws SQLException {
+	public void removeProdotti(String name) throws SQLException {
 		PreparedStatement statement = connessione.prepareStatement("delete from prodotto where nomeProdotto = ?;");
 		statement.setString(1, name);
 		statement.execute();
 	}
 
-	public static List<Prodotto> getProdotti(Prodotto p, Connection connessione)
-			throws SQLException, ClassNotFoundException {
-		inserisciProdotti(p, connessione);
-		List<Prodotto> elenco = stampaProdotti(connessione);
+	public List<Prodotto> getProdotti(Prodotto p) throws SQLException, ClassNotFoundException {
+		inserisciProdotti(p);
+		List<Prodotto> elenco = stampaProdotti();
 		connessione.close();
 		return elenco;
 
 	}
 
-	public static void inserisciProdotti(Prodotto p, Connection connessione) throws SQLException {
+	public void inserisciProdotti(Prodotto p) throws SQLException {
 		PreparedStatement statement = connessione.prepareStatement(
 				"insert into prodotto (nomeProdotto, quantitaResidua, prezzo, descrizione) values (?,?,?,?);");
 		statement.setString(1, p.getNomeProdotto());
@@ -192,11 +185,10 @@ public class GestioneDB {
 		statement.execute();
 	}
 
-	public static List<ProdottoVenduto> stampaVenduto(Connection connessione)
-			throws SQLException, ClassNotFoundException {
+	public List<ProdottoVenduto> stampaVenduto() throws SQLException, ClassNotFoundException {
 
 		List<ProdottoVenduto> elenco = new ArrayList<>();
-		ResultSet risultato = stampaListaVenduto(connessione);
+		ResultSet risultato = stampaListaVenduto();
 		while (risultato.next()) {
 			String nome = risultato.getString(1);
 			int quantita = risultato.getInt(2);
@@ -208,16 +200,15 @@ public class GestioneDB {
 		return elenco;
 	}
 
-	public static List<Prodotto> updateQuantita(Connection connessione, String name, int q)
-			throws SQLException, ClassNotFoundException {
+	public List<Prodotto> updateQuantita(String name, int q) throws SQLException, ClassNotFoundException {
 
-		List<Prodotto> elenco = stampaProdotti(connessione);
+		List<Prodotto> elenco = stampaProdotti();
 
 		for (int i = 0; i < elenco.size(); i++) {
 			if (elenco.get(i).getNomeProdotto().equals(name)) {
 				int somma = elenco.get(i).getQuantitaResidua() + q;
 				elenco.get(i).setQuantitaResidua(somma);
-				updateProdotti(connessione, name, somma);
+				updateProdotti(name, somma);
 				return elenco;
 			}
 		}
@@ -225,7 +216,7 @@ public class GestioneDB {
 		return null;
 	}
 
-	public static void updateProdotti(Connection connessione, String name, int somma) throws SQLException {
+	public void updateProdotti(String name, int somma) throws SQLException {
 		PreparedStatement statement = connessione
 				.prepareStatement("update prodotto set quantitaResidua = ? where nomeProdotto = ?;");
 		statement.setString(2, name);
@@ -233,7 +224,7 @@ public class GestioneDB {
 		statement.execute();
 	}
 
-	public static boolean isUtente(Connection connessione, String nome) throws SQLException {
+	public boolean isUtente(String nome) throws SQLException {
 		PreparedStatement s = connessione.prepareStatement("select * from utente where nome = ?;");
 		s.setString(1, nome);
 		ResultSet risultato = s.executeQuery();
@@ -241,21 +232,20 @@ public class GestioneDB {
 
 			return true;
 		}
-		
+
 		return false;
 	}
 
-	public static void checkUtente(Connection connessione, String nome, int eta) throws SQLException {
-		if (isUtente(connessione, nome)) {
-			updateUtente(connessione, nome, eta);
+	public void checkUtente(String nome, int eta) throws SQLException {
+		if (isUtente(nome)) {
+			updateUtente(nome, eta);
 		} else {
-			insertUtente(connessione, nome, eta);
+			insertUtente(nome, eta);
 
 		}
-		connessione.close();
 	}
 
-	public static void updateUtente(Connection connessione, String nome, int eta) throws SQLException {
+	public void updateUtente(String nome, int eta) throws SQLException {
 		PreparedStatement statement = connessione.prepareStatement("update utente set eta =? where nome = ?;");
 
 		statement.setInt(1, eta);
@@ -264,15 +254,15 @@ public class GestioneDB {
 
 	}
 
-	public static void insertUtente(Connection connessione, String nome, int eta) throws SQLException {
+	public void insertUtente(String nome, int eta) throws SQLException {
 		PreparedStatement statement = connessione.prepareStatement("insert into utente (nome, eta) values (?,?);");
 		statement.setString(1, nome);
 		statement.setInt(2, eta);
 		statement.execute();
 
 	}
-	
-	public static double getPrezzo(Connection connessione, int idScontrino)throws SQLException {
+
+	public  double getPrezzo( int idScontrino) throws SQLException {
 		double costo = 0;
 		String query = "select acquisto.quantitaAcquistata,prodotto.prezzo from acquisto inner join prodotto on acquisto.nomeProdotto=prodotto.nomeProdotto where acquisto.idScontrino=?;";
 		PreparedStatement statement = connessione.prepareStatement(query);
@@ -282,33 +272,31 @@ public class GestioneDB {
 		while (risultato.next()) {
 
 			costo = costo + (risultato.getInt(1) * risultato.getDouble(2));
-			
+
 		}
-		connessione.close();
 		return costo;
-		
+
 	}
-	
-	public static boolean spesaTotaleScontrino(Connection connessione, int idScontrino, double costo)
+
+	public  boolean spesaTotaleScontrino( int idScontrino, double costo)
 			throws ClassNotFoundException, SQLException {
-		
+
 		String query = "update scontrino set spesa=? where idScontrino=?;";
 		PreparedStatement statement = connessione.prepareStatement(query);
 		statement.setDouble(1, costo);
 		statement.setInt(2, idScontrino);
 		statement.execute();
-		connessione.close();
 		return true;
 
 	}
-	
 
-	public static int creaScontrino(Connection connessione, String nome) throws SQLException {
-		
-		PreparedStatement state = connessione.prepareStatement("insert into scontrino (idScontrino, data, nome) values (?,?,?);");
+	public  int creaScontrino( String nome) throws SQLException {
+
+		PreparedStatement state = connessione
+				.prepareStatement("insert into scontrino (idScontrino, data, nome) values (?,?,?);");
 		java.util.Date data = new java.util.Date();
 		DateFormat formato = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
-		int idScontrino = (int) (Math.random()*1000 + Math.random()*1000);
+		int idScontrino = (int) (Math.random() * 1000 + Math.random() * 1000);
 		state.setInt(1, idScontrino);
 		state.setString(2, formato.format(data));
 		state.setString(3, nome);
@@ -319,45 +307,42 @@ public class GestioneDB {
 	public static List<Scontrino> stampaScontrini(Connection connessione, String nome) throws SQLException {
 		PreparedStatement statement = connessione.prepareStatement("select * from scontrino where nome = ?;");
 		statement.setString(1, nome);
-		
+
 		ResultSet risultatoQuery = statement.executeQuery();
 		List<Scontrino> elenco = new ArrayList<>();
 		while (risultatoQuery.next()) {
 			int idScontrino = risultatoQuery.getInt("idScontrino");
 			String data = risultatoQuery.getString("data");
 			double spesa = risultatoQuery.getDouble("spesa");
-			
 
 			Scontrino scontrino = new Scontrino(idScontrino, nome, data, spesa);
 			elenco.add(scontrino);
 
 		}
-		
+
 		return elenco;
-		
+
 	}
 
-	
-		public static List<ProdottoVenduto> stampaProdottiScontrino(Connection connessione, int idScontrino) throws SQLException {
-			PreparedStatement statement = connessione.prepareStatement("select nome, nomeProdotto, quantitaAcquistata from acquisto where idScontrino = ?;");
-			statement.setInt(1, idScontrino);
-			
-			ResultSet risultatoQuery = statement.executeQuery();
-			List<ProdottoVenduto> elenco = new ArrayList<>();
-			while (risultatoQuery.next()) {
-				String nome = risultatoQuery.getString("nome");
-				String nomeProdotto = risultatoQuery.getString("nomeProdotto");
-				int quantita = risultatoQuery.getInt("quantitaAcquistata");
-				
-				ProdottoVenduto p = new ProdottoVenduto(idScontrino, nome, nomeProdotto, quantita);
-				elenco.add(p);
+	public static List<ProdottoVenduto> stampaProdottiScontrino(Connection connessione, int idScontrino)
+			throws SQLException {
+		PreparedStatement statement = connessione
+				.prepareStatement("select nome, nomeProdotto, quantitaAcquistata from acquisto where idScontrino = ?;");
+		statement.setInt(1, idScontrino);
 
-			}
-			
-			return elenco;
-			
+		ResultSet risultatoQuery = statement.executeQuery();
+		List<ProdottoVenduto> elenco = new ArrayList<>();
+		while (risultatoQuery.next()) {
+			String nome = risultatoQuery.getString("nome");
+			String nomeProdotto = risultatoQuery.getString("nomeProdotto");
+			int quantita = risultatoQuery.getInt("quantitaAcquistata");
+
+			ProdottoVenduto p = new ProdottoVenduto(idScontrino, nome, nomeProdotto, quantita);
+			elenco.add(p);
+
 		}
+
+		return elenco;
+
 	}
-
-
-
+}

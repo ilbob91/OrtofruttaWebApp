@@ -32,7 +32,7 @@ public class VendiProdotti extends HttpServlet {
 		int quantita1 = Integer.parseInt(req.getParameter("quantita"));
 		try {
 				
-			if(GestioneDB.checkVendita(GestioneDB.stampaProdotti(GestioneDB.connessione()), quantita1)) {
+			if(GestioneDB.checkVendita(GestioneDB.stampaProdotti(GestioneDB.connessione()),nomeProdotto1, quantita1)) {
 				
 			
 			req.setAttribute("ListaProdottiVenduti",
