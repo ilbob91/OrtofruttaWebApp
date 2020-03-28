@@ -63,7 +63,7 @@ table, th, td {
   </tr>
 	<% } %> 
 </table> <br><br>
-<h2>Cosa vuoi comprare , <%=request.getAttribute("Utente")%> ?</h2>
+<h2>Cosa vuoi comprare, <%=request.getAttribute("Utente")%> ?</h2>
 <form action="acquisto" method = "post">
   <label for="nomeProdotto">Dimmi il nome del prodotto</label>
   <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br>

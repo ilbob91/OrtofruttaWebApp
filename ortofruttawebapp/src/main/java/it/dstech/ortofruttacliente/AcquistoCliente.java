@@ -32,15 +32,14 @@ public class AcquistoCliente extends HttpServlet {
 				String nomeProdotto = req.getParameter("nomeProdotto");
 				int quantita = Integer.parseInt(req.getParameter("quantita"));
 
-				
-					//gestione.stampaProdotti();
+				// gestione.stampaProdotti();
 				if (gestione.checkVendita(gestione.stampaProdotti(), nomeProdotto, quantita)) {
 					carrello.add(new ProdottoVenduto(nomeUtente, nomeProdotto, quantita));
 					gestione.updateQuantitaAggiuntaAlCarrello(nomeProdotto, quantita);
 					req.setAttribute("Utente", nomeUtente);
 					req.setAttribute("ListaProdotti", gestione.stampaProdotti());
 					req.setAttribute("messaggio", "prodotto aggiunto al carrello");
-					
+
 				} else {
 					req.setAttribute("mess", "quantità del prodotto insufficiente");
 				}
@@ -55,19 +54,22 @@ public class AcquistoCliente extends HttpServlet {
 		else if (azione.equalsIgnoreCase("Paga")) {
 
 			try {
-				GestioneDB gest = new GestioneDB();
-				int idScontrino = gest.creaScontrino(req.getParameter("Utente"));
-				for (ProdottoVenduto p : carrello) {
 
-					gest.inserimentoTabellaAcquisto(p.getNomeCliente(), p.getNomeProdotto(), p.getQuantitaVenduta(),
-							idScontrino);
+				GestioneDB gestione = new GestioneDB();
+
+					int idScontrino = gestione.creaScontrino(req.getParameter("Utente"));
+					for (ProdottoVenduto p : carrello) {
+
+						gestione.inserimentoTabellaAcquisto(p.getNomeCliente(), p.getNomeProdotto(),
+								p.getQuantitaVenduta(), idScontrino);
+					}
+					double spesa = gestione.getPrezzo(idScontrino);
+					System.out.println(spesa);
+					gestione.spesaTotaleScontrino(idScontrino, spesa);
+					carrello.clear();
+					gestione.close();
 				}
-				double spesa = gest.getPrezzo(idScontrino);
-				System.out.println(spesa);
-				gest.spesaTotaleScontrino(idScontrino, spesa);
-				carrello.clear();
-				gest.close();
-			} catch (ClassNotFoundException e) {
+			 catch (ClassNotFoundException e) {
 
 				e.printStackTrace();
 			} catch (SQLException e) {
@@ -79,5 +81,4 @@ public class AcquistoCliente extends HttpServlet {
 		}
 
 	}
-
 }
