@@ -12,6 +12,7 @@
 	padding:9px 23px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #263666;
+	margin: auto;
 }
 .button:hover {
 	background:linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
@@ -27,4 +28,14 @@
 }
 .sansserif {
   font-family: Arial, Helvetica, sans-serif;
+}
+.header{
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    line-height: 50px;
+  background-color: lightblue;
 }
