@@ -9,34 +9,24 @@
 <title>Insert title here</title>
 </head>
 <body>
-<<<<<<< HEAD
- <header>
- 
-=======
 
-
-
-
-
-<header>
 <br> 
->>>>>>> branch 'master' of https://github.com/ilbob91/OrtofruttaWebApp.git
      <h1><p class="text-xl-center font-weight-bold">BENVENUTI NELL'ORTOFRUTTA DI MARTA E BOB</p></h1>
 <br>      
         </header>
    
-<<<<<<< HEAD
+
 <main>
 <br>
         <section id="hero">
          <h4><p class="text-xl-center font-weight-bold">Sei il Venditore?</p></h4>
-=======
+
 
 <div class= "row no-gutters">
 <div class= "col">
         <div class= "leftside d-flex justify-content-center align-items-center">
                 
->>>>>>> branch 'master' of https://github.com/ilbob91/OrtofruttaWebApp.git
+
 <form action="PaginaInizialeVenditore.jsp">
   <input type="submit"   class="btn btn-outline-primary btn-block" style="width:49.5vw; height:100vh;margin:auto" value="Venditore">
   </form>
