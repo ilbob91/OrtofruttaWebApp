@@ -23,13 +23,15 @@ header {
 </head>
 <body>
  <header>
+ 
      <h1><p class="text-xl-center font-weight-bold">BENVENUTI NELL'ORTOFRUTTA DI MARTA E BOB</p></h1>
 <br><br>       
         </header>
    
 <main>
-            <section id="hero">
-                <h4><p class="text-xl-center font-weight-bold">Sei il Venditore?</p></h4>
+<br>
+        <section id="hero">
+         <h4><p class="text-xl-center font-weight-bold">Sei il Venditore?</p></h4>
 <form action="PaginaInizialeVenditore.jsp">
   <input type="submit"   class="btn btn-outline-primary btn-block" style="width:150px; height:50px;margin:auto" value="Venditore">
   </form><br><br>
