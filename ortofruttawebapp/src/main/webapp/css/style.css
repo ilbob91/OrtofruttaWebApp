@@ -29,15 +29,15 @@
 .sansserif {
   font-family: Arial, Helvetica, sans-serif;
 }
-.header{
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    line-height: 50px;
-  background-color: lightblue;
+.top{
+	widht: 100vw;
+	height:100%;
+	
+	background-image: url("Cattura2.PNG");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	
 }
 .leftside, .rightside{
 	height: 100vh;
@@ -45,8 +45,15 @@
 	
 }
 .leftside {
-	background-image: url("../immagini/image.jpg");
+	background-image: url("magazziniere.jpg");
+	background-size: cover;
+	padding: 40 px;
+	margin : 80 px;
+	opacity: 90%;
 }
 .rightside {
-	background: red;
+	background-image: url("sfondo.jpg");
+	padding: 40 px;
+	margin : 80 px;
+	opacity: 90%;
 }

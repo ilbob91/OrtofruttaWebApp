@@ -4,12 +4,10 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 <head>
-<style>
-table, th, td {
-  border: 1px solid #FF6347;
-}
-</style>
+
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
@@ -28,9 +26,13 @@ table, th, td {
 %>
 
 <% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
-<table>
+
   
-    <h2>Lista Prodotti</h2>
+   
+ 
+
+<table  class="table table-striped"> 
+   
   <tr>
    <th>Nome </th>
    <th>Quantità </th>
@@ -57,7 +59,7 @@ table, th, td {
 	<% } %> 
 </table> <br><br>
 <form action="PaginaInizialeVenditore.jsp">
-  <input type="submit" value="Torna Indietro">
+  <input type="submit" class="btn btn-outline-secondary btn-block" style="width:150px; height:50px;margin:auto"  value="Torna Indietro">
 
 </form>
 </body>

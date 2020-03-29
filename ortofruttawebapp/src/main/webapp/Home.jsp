@@ -6,20 +6,22 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Ortofrutta Marta e Bob</title>
 </head>
 <body>
 
-<br> 
-     <h1><p class="text-xl-center font-weight-bold">BENVENUTI NELL'ORTOFRUTTA DI MARTA E BOB</p></h1>
-<br>      
-        </header>
+<div class= "row ">
+<div class= "col-lg">
+<div class = "top">
+     <br> 
    
+     <h3> <p class="text-xl-center font-italic"></p> </h3>
+<br><br><br><br>
+        </div>
+        </div>
+        </div>
+       
 
-<main>
-<br>
-        <section id="hero">
-         <h4><p class="text-xl-center font-weight-bold">Sei il Venditore?</p></h4>
 
 
 <div class= "row no-gutters">
@@ -27,8 +29,8 @@
         <div class= "leftside d-flex justify-content-center align-items-center">
                 
 
-<form action="PaginaInizialeVenditore.jsp">
-  <input type="submit"   class="btn btn-outline-primary btn-block" style="width:49.5vw; height:100vh;margin:auto" value="Venditore">
+<form action="PasswordVenditore.jsp">
+  <input type="submit"   class="btn btn-outline-light btn-block btn-lg text-lg-center font-weight-bold" style="width:49.5vw; height:100vh;margin:auto; opacity:60%;" value="Sei il venditore? Clicca qui">
   </form>
         </div>
 </div>
@@ -36,11 +38,11 @@
 <div class= "rightside d-flex justify-content-center align-items-center">
 
 <form action="PaginaInizialeCliente.jsp">
-  <input type="submit"  class="btn btn-outline-primary btn-block" style="width:49.5vw; height:100vh;margin:auto" value="Cliente">
+  <input type="submit"  class="btn btn-outline-light btn-block btn-lg text-lg-center font-weight-bold" style="width:49.5vw; height:100vh;margin:auto; opacity: 60%" value="Sei un cliente? Clicca qui">
   </form>
 </div>
 </div>
 </div> 
-  
+   
 </body>
 </html>
