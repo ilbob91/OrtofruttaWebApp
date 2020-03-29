@@ -4,12 +4,11 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 <head>
-<style>
-table, th, td {
-  border: 1px solid #FF6347;
-}
-</style>
+
+
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
@@ -17,7 +16,7 @@ table, th, td {
 
 <% List<Scontrino> listaScontrini = (List<Scontrino>)request.getAttribute("ListaScontrini"); %>
 <%String nomeUtente = (String) request.getAttribute("Utente"); %>
-<table>
+<table class="table table-striped">
   
     <h2>Lista Scontrino</h2>
   <tr>
@@ -55,7 +54,7 @@ table, th, td {
 	
 </table> <br><br>
 <form action="tornaIndietro" method="post">
-  <input type="submit" value="Torna Indietro">
+  <input type="submit" class="btn btn-outline-secondary" value="Torna Indietro">
   <input type="hidden" id="Utente" name="Utente" value=<%=nomeUtente%>>  
 </form>
 </body>

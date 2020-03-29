@@ -30,7 +30,7 @@
 <form action="venduto">
   <input type="submit" class= "btn btn-outline-primary btn-block"style="width:300px; height:60px;margin:auto" name= "azione" value="Stampa venduto">
   </form> 
- <br><br>
+ <br>
  
    <form action="Home.jsp">
   <input type="submit"class="btn btn-outline-secondary btn-block"style="width:200px; height:45px;margin:auto" value="Torna Indietro">

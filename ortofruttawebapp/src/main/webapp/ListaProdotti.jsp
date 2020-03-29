@@ -57,7 +57,7 @@
   </tr>
   <% } %> 
 	<% } %> 
-</table> <br><br>
+</table> <br>
 <form action="PaginaInizialeVenditore.jsp">
   <input type="submit" class="btn btn-outline-secondary btn-block" style="width:150px; height:50px;margin:auto"  value="Torna Indietro">
 

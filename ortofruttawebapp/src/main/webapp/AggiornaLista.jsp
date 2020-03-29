@@ -48,11 +48,11 @@ table, th, td {
     <span class="input-group-text" id="inputGroup-sizing-sm">Quantità</span>
   </div> 
   <input type="number" id="quantita" name="quantita"><br><br></div>
-  <input type="submit" class="btn btn-outline-success"style="width:120px; height:45px;" value="Aggiorna">
+  <input type="submit" class="btn btn-outline-success" style="width:120px; height:45px;" value="Aggiorna">
   </form><br>
   
 <form action="PaginaInizialeVenditore.jsp">
-  <input type="submit"  class="btn btn-outline-secondary"value="Torna Indietro">
+  <input type="submit" class="btn btn-outline-secondary" value="Torna Indietro">
 
 
   
