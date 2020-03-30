@@ -41,6 +41,7 @@ table, th, td {
 %>
 <% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
 <%String nome = (String) request.getAttribute("Utente"); %>
+
 <table>
   
     <h2>Lista Prodotti</h2>
@@ -70,6 +71,15 @@ table, th, td {
   <div class="input-group input-group-sm mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-sm">Nome prodotto da acquistare</span>
+     <label for="nomeParametro">Inserisci il CountryCode:</label>
+	<select name = "nomeParametro">
+	
+	<% for (String cc : listaProdotti){%>
+	  <option value="<%=cc %>"><%=cc %></option>
+	  
+	  <% } %>
+	</select>
+	<br>
   </div>
   <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br></div>
    <div class="input-group input-group-sm mb-3">
@@ -80,6 +90,7 @@ table, th, td {
   <input type="submit" class="btn btn-outline-success" style="height:45px;" name= "azione" value="Aggiungi al carrello">
   <input type="submit" class="btn btn-outline-danger" style="width:120px; height:45px;" name= "azione" value="Paga">
   <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>
+   
    <br><br>
    </form>
    <form action="tornaIndietro" method="post">

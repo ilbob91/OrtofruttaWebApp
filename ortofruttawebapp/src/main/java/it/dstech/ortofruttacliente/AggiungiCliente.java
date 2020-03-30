@@ -16,10 +16,13 @@ public class AggiungiCliente extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String nome = req.getParameter("user");
 		int eta = Integer.parseInt(req.getParameter("eta"));
+		
 		try {
 			GestioneDB gestione = new GestioneDB();
 			gestione.checkUtente(nome, eta);
 			req.setAttribute("Utente", nome);
+			int idScontrino = gestione.creaScontrino(req.getParameter("Utente"));
+		
 			gestione.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
