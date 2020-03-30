@@ -22,6 +22,7 @@
   
    <input type="submit"  class= "btn btn-outline-primary btn-block" style="width:300px; height:60px;margin:auto" name= "azione" value="Stampa Scontrini">
   <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>
+  
    
 </form> <br><br>
        

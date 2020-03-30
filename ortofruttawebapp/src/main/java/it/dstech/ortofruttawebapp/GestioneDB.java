@@ -291,7 +291,7 @@ public class GestioneDB {
 
 	}
 
-	public  int creaScontrino( String nome) throws SQLException {
+	public  int creaScontrino(String nome) throws SQLException {
 
 		PreparedStatement state = connessione
 				.prepareStatement("insert into scontrino (idScontrino, data, nome) values (?,?,?);");

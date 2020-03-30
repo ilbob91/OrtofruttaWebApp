@@ -21,8 +21,6 @@ public class AggiungiCliente extends HttpServlet {
 			GestioneDB gestione = new GestioneDB();
 			gestione.checkUtente(nome, eta);
 			req.setAttribute("Utente", nome);
-			int idScontrino = gestione.creaScontrino(req.getParameter("Utente"));
-		
 			gestione.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

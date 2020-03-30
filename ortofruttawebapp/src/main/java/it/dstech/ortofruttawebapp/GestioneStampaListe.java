@@ -53,6 +53,8 @@ public class GestioneStampaListe extends HttpServlet {
 		} else if (azione.equalsIgnoreCase("Compra")) {
 			try {
 				GestioneDB gestione = new GestioneDB();
+				int idScontrino = gestione.creaScontrino(req.getParameter("Utente"));
+				req.setAttribute("idScontrino", idScontrino);
 				req.setAttribute("ListaProdotti", gestione.stampaProdotti());
 				req.setAttribute("Utente", req.getParameter("Utente"));
 				gestione.close();

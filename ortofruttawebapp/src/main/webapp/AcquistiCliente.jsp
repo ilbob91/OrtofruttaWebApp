@@ -90,12 +90,13 @@ table, th, td {
   <input type="submit" class="btn btn-outline-success" style="height:45px;" name= "azione" value="Aggiungi al carrello">
   <input type="submit" class="btn btn-outline-danger" style="width:120px; height:45px;" name= "azione" value="Paga">
   <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>
+  <input type="hidden" id="idScontrino" name="idScontrino" value=<%=(int)request.getAttribute("idScontrino")%>>
    
    <br><br>
    </form>
    <form action="tornaIndietro" method="post">
   <input type="submit" class="btn btn-outline-secondary" style="width:120px; height:45px;"  value="Torna Indietro">
-  <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>  
+  <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>
 </form>
 
 </body>
