@@ -70,18 +70,18 @@ table, th, td {
 <form action="acquisto" method = "post">
   <div class="input-group input-group-sm mb-3">
   <div class="input-group-prepend">
-    <span class="input-group-text" id="inputGroup-sizing-sm">Nome prodotto da acquistare</span>
-     <label for="nomeParametro">Inserisci il CountryCode:</label>
-	<select name = "nomeParametro">
+    <span class="input-group-text" id="inputGroup-sizing-sm"><label for="nomeProdotto">Nome prodotto da acquistare</label></span>
+     
+	<select name = "nomeProdotto">
 	
-	<% for (String cc : listaProdotti){%>
-	  <option value="<%=cc %>"><%=cc %></option>
+	<% for (Prodotto p1 : listaProdotti){%>
+	  <option value="<%=p1.getNomeProdotto() %>"><%=p1.getNomeProdotto() %></option>
 	  
 	  <% } %>
 	</select>
 	<br>
   </div>
-  <input type="text" id="nomeProdotto" name="nomeProdotto"><br><br></div>
+ <br><br></div>
    <div class="input-group input-group-sm mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-sm">Inserisci quantità da acquistare</span>
