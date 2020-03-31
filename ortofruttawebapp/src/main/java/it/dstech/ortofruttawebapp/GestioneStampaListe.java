@@ -56,6 +56,7 @@ public class GestioneStampaListe extends HttpServlet {
 				int idScontrino = gestione.creaScontrino(req.getParameter("Utente"));
 				req.setAttribute("idScontrino", idScontrino);
 				req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+				req.setAttribute("ListaProdottiDelloScontrino", gestione.stampaProdottiScontrino(idScontrino));
 				req.setAttribute("Utente", req.getParameter("Utente"));
 				gestione.close();
 			} catch (ClassNotFoundException | SQLException e) {

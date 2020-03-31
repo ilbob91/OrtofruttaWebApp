@@ -35,13 +35,13 @@ public class AcquistoCliente extends HttpServlet {
 			int idScontrino = Integer.parseInt(req.getParameter("idScontrino"));
 			System.out.println(idScontrino);
 			
-
+String nomeUtente = req.getParameter("Utente");
+					String nomeProdotto = req.getParameter("nomeProdotto");
+					int quantita = Integer.parseInt(req.getParameter("quantita"));
 			if (azione.equalsIgnoreCase("Aggiungi al carrello")) {
 				try {
 
-					String nomeUtente = req.getParameter("Utente");
-					String nomeProdotto = req.getParameter("nomeProdotto");
-					int quantita = Integer.parseInt(req.getParameter("quantita"));
+					
 
 					if (gestione.checkVendita(gestione.stampaProdotti(), nomeProdotto, quantita)) {
 						// carrello.add(new ProdottoVenduto(nomeUtente, nomeProdotto, quantita));
@@ -49,12 +49,14 @@ public class AcquistoCliente extends HttpServlet {
 						gestione.updateQuantitaAggiuntaAlCarrello(nomeProdotto, quantita);
 						req.setAttribute("Utente", nomeUtente);
 						req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+						req.setAttribute("ListaProdottiDelloScontrino", gestione.stampaProdottiScontrino(idScontrino));
 						req.setAttribute("messaggio", "prodotto aggiunto al carrello");
 						req.setAttribute("idScontrino", idScontrino);
 
 					} else {
 						req.setAttribute("Utente", nomeUtente);
 						req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+						req.setAttribute("ListaProdottiDelloScontrino", gestione.stampaProdottiScontrino(idScontrino));
 						req.setAttribute("idScontrino", idScontrino);
 						req.setAttribute("mess", "quantità del prodotto insufficiente");
 						req.getRequestDispatcher("AcquistiCliente.jsp").forward(req, resp);
@@ -79,6 +81,33 @@ public class AcquistoCliente extends HttpServlet {
 					 * gestione.inserimentoTabellaAcquisto(p.getNomeCliente(), p.getNomeProdotto(),
 					 * p.getQuantitaVenduta(), idScontrino); }
 					 */
+					
+					if (req.getParameter("nomeProdotto")!=null && !req.getParameter("nomeProdotto").equals("")) {
+						if (gestione.checkVendita(gestione.stampaProdotti(), nomeProdotto, quantita)) {
+							// carrello.add(new ProdottoVenduto(nomeUtente, nomeProdotto, quantita));
+							gestione.inserimentoTabellaAcquisto(nomeUtente, nomeProdotto, quantita, idScontrino);
+							gestione.updateQuantitaAggiuntaAlCarrello(nomeProdotto, quantita);
+							req.setAttribute("Utente", nomeUtente);
+							req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+							req.setAttribute("ListaProdottiDelloScontrino", gestione.stampaProdottiScontrino(idScontrino));
+							req.setAttribute("messaggio", "prodotto aggiunto al carrello");
+							req.setAttribute("idScontrino", idScontrino);
+							double spesa = gestione.getPrezzo(idScontrino);
+							System.out.println(spesa);
+							gestione.spesaTotaleScontrino(idScontrino, spesa);
+							//carrello.clear();
+							
+					
+
+						} else {
+							req.setAttribute("Utente", nomeUtente);
+							req.setAttribute("ListaProdotti", gestione.stampaProdotti());
+							req.setAttribute("ListaProdottiDelloScontrino", gestione.stampaProdottiScontrino(idScontrino));
+							req.setAttribute("idScontrino", idScontrino);
+							req.setAttribute("mess", "quantità del prodotto insufficiente");
+							req.getRequestDispatcher("AcquistiCliente.jsp").forward(req, resp);
+						}
+					}
 
 					double spesa = gestione.getPrezzo(idScontrino);
 					System.out.println(spesa);
@@ -92,6 +121,7 @@ public class AcquistoCliente extends HttpServlet {
 
 					e.printStackTrace();
 				}
+				gestione.close();
 				req.setAttribute("Utente", req.getParameter("Utente"));
 				req.setAttribute("idScontrino", idScontrino);
 				req.getRequestDispatcher("OpzioneCliente.jsp").forward(req, resp);

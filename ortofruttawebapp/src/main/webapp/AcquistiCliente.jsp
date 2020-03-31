@@ -1,3 +1,4 @@
+<%@page import="it.dstech.ortofruttawebapp.classi.ProdottoVenduto"%>
 <%@page import="it.dstech.ortofruttawebapp.classi.Prodotto"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -16,32 +17,16 @@ table, th, td {
 <title>Insert title here</title>
 </head>
 <body>
-<% String messaggio = (String) request.getAttribute("messaggio"); 
-	if (messaggio != null ){
-		%>
-	
-		<%=messaggio%>
-					
-	<% }
-	
 
-
-%>
-
-<% String mess = (String) request.getAttribute("mess"); 
-	if (mess != null ){
-		%>
-	
-		<%=mess%>
-					
-	<% }
-	
-
-
-%>
+<% List<ProdottoVenduto> listaProdottiScontrino = (List<ProdottoVenduto>)request.getAttribute("ListaProdottiDelloScontrino"); %>
 <% List<Prodotto> listaProdotti = (List<Prodotto>)request.getAttribute("ListaProdotti"); %>
 <%String nome = (String) request.getAttribute("Utente"); %>
-
+ <br><br><br><br><br><br><br>
+<div class= "container">
+ <div class="row">
+    <div class="col-4">
+        
+       
 <table>
   
     <h2>Lista Prodotti</h2>
@@ -66,6 +51,15 @@ table, th, td {
   </tr>
 	<% } %> 
 </table> <br><br>
+
+ 
+</div>
+<div class="col">
+    
+    </div>
+<div class="col-md">
+        
+                
 <h2>Cosa vuoi comprare, <%=request.getAttribute("Utente")%> ?</h2>
 <form action="acquisto" method = "post">
   <div class="input-group input-group-sm mb-3">
@@ -98,6 +92,58 @@ table, th, td {
   <input type="submit" class="btn btn-outline-secondary" style="width:120px; height:45px;"  value="Torna Indietro">
   <input type="hidden" id="Utente" name="Utente" value=<%=nome%>>
 </form>
+</div>
+<div class="col">
+    
+    </div>
+<div class="col-md-auto">
+        
+        <table>
+        <% String messaggio = (String) request.getAttribute("messaggio"); 
+	if (messaggio != null ){
+		%>
+	
+		<p class="text-md-center text-danger"><%=messaggio%></p>
+					
+	<% }
+	
 
+
+%>
+
+<% String mess = (String) request.getAttribute("mess"); 
+	if (mess != null ){
+		%>
+	
+		<p class="text-md-center text-danger"><%=mess%></p>
+					
+	<% }
+	
+
+
+%>
+   <h2>Carrello</h2>
+    
+  <tr>
+   <th>Nome Prodotto   </th>
+   <th>Quantità </th>
+   
+   
+  </tr>
+  <% for(ProdottoVenduto p : listaProdottiScontrino) { %>
+  
+  <tr>
+     <td>
+    <%=p.getNomeProdotto()%>
+    </td>    
+     <td>
+    <%=p.getQuantitaVenduta()%>
+       </td> 
+  </tr>
+	<% } %> 
+</table> <br><br>
+        
+
+</div>
 </body>
 </html>
